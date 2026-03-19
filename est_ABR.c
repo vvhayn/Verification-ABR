@@ -52,8 +52,8 @@ int est_abr_definition_aux(Arbre a, int *min, int *max, long long *nb_visites) {
     (*nb_visites)++;
     if (a->valeur > *max || a->valeur < *min)
         return 0;
-    return est_abr_definition_aux(a->fd, &a->valeur, max, nb_visites) 
-        && est_abr_definition_aux(a->fg, min, &a->valeur, nb_visites);
+    return est_abr_definition_aux(a->fg, min, &a->valeur, nb_visites) 
+        && est_abr_definition_aux(a->fd, &a->valeur, max, nb_visites);
 }
 
 int est_abr_definition(Arbre a, long long *nb_visites) {
@@ -66,17 +66,17 @@ int infixe_croissant(Arbre a, Noeud **dernier_noeud, long long * nb_visites) {
     if (a == NULL)
         return 1;
     (*nb_visites)++;
-    if (!infixe_croissant(a->fg, dernier_noeud))
+    if (!infixe_croissant(a->fg, dernier_noeud, nb_visites))
         return 0;
     if (*dernier_noeud != NULL && (*dernier_noeud)->valeur > a->valeur)
         return 0;
     *dernier_noeud = a;
-    return infixe_croissant(a->fd, dernier_noeud);
+    return infixe_croissant(a->fd, dernier_noeud, nb_visites);
 }
 
 int est_abr_infixe(Arbre a, long long * nb_visites){
     Noeud * noeud = NULL;
-    if(infixe_croissant(a, &noeud))
+    if(infixe_croissant(a, &noeud, nb_visites))
         return 1;
     return 0;
 }
@@ -88,12 +88,11 @@ void affiche_infos(Arbre a) {
     printf("La plus grande étiquette de l'arbre est : %d\n", abr_max(a, &tmp));
     tmp = 0;
     printf("L'arbre %s\n", est_abr_definition(a, &tmp) == 1 ? "est un ABR" : "n'est pas un ABR");
+    printf("Le nombre de visites pour déterminer si c'est un ABR est : %lld\n", tmp);
     tmp = 0;
     printf("L'arbre %s\n", est_abr_infixe(a, &tmp) == 1 ? "est un ABR" : "n'est pas un ABR");
-    tmp = 0;
     printf("Le nombre de visites pour déterminer si c'est un ABR est : %lld\n", tmp);
     tmp = 0;
-    printf("Le nombre de visites pour déterminer si c'est un ABR est : %lld\n", tmp);
 }
 
 int main(void){
