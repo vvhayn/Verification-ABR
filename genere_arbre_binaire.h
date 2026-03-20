@@ -12,4 +12,8 @@
     void detruit_arbre(Noeud *noeud);
 
     void parcours_infixe_2_prefixe_presque_complet(int *prefixe, int *infixe, int n);
+
+    /*Nécessite de faire un appel srand(time(NULL)) pour cette fonction*/
+    void parcours_infixe_2_prefixe_filiforme_aleatoire(int *prefixe, int* infixe, int n);
+
 #endif

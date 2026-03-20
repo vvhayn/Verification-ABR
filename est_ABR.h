@@ -1,10 +1,7 @@
 #ifndef EST_ABR_H
 #define EST_ABR_H
 
-typedef struct noeud {
-    int valeur;
-    struct noeud *fd, *fg;
-} Noeud, *Arbre;
+#include "structure_arbre.h"
 
 Arbre alloue_noeud(int val);
 

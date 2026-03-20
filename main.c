@@ -5,24 +5,7 @@
 #include "est_ABR.h"
 #include "genere_arbre_binaire.h"
 #include "fonctions_de_test.h"
-
-static Noeud* alloue_noeud(int val){
-
-    Noeud* noeud = (Noeud*) malloc(sizeof(Noeud));
-
-    if (!noeud){
-        printf("Impossibilité d'allouer le noeud.");
-        exit(1);
-    }
-
-    noeud->fd = NULL;
-    noeud->fg = NULL;
-
-    noeud->valeur = val;
-
-    return noeud;
-
-}
+#include "structure_arbre.h"
 
 Arbre construit_arbre(FILE* f ){
     char chara;

@@ -2,87 +2,60 @@
 #include <stdlib.h>
 #include "genere_arbre_binaire.h"
 #include "fonctions_de_test.h"
+#include "structure_arbre.h"
 #include <time.h>
 
-static Noeud* alloue_noeud(int val){
+// int construit_presque_complet(Arbre *a, int **src, int n){
 
-    Noeud* noeud = (Noeud*) malloc(sizeof(Noeud));
+//     if (!n)
+//         return 1;
 
-    if (!noeud){
-        printf("Impossibilité d'allouer le noeud.");
-        exit(1);
-    }
+//     int nb_a_attribuer_gauche = (n-1)/2;
+//     int nb_a_attribuer_droit = n - 1 - nb_a_attribuer_gauche;
 
-    noeud->fd = NULL;
-    noeud->fg = NULL;
+//     fprintf(stderr, "valeur racine : %d\n", **src);
+//     fprintf(stderr, "   nombre à attribuer à gauche : %d\n", nb_a_attribuer_gauche);
+//     fprintf(stderr, "   nombre à attribuer à droite : %d\n", nb_a_attribuer_droit);
 
-    noeud->valeur = val;
+//     Noeud *noeud = alloue_noeud((**src));
+//     if (!noeud)
+//         return 0;
 
-    return noeud;
-
-}
-
-void detruit_arbre(Noeud *noeud) {
-    if (!noeud)
-        return;
-    else {
-        detruit_arbre(noeud->fg);
-        detruit_arbre(noeud->fd);
-        free(noeud);
-    }
-}
-
-int construit_presque_complet(Arbre *a, int **src, int n){
-
-    if (!n)
-        return 1;
-
-    int nb_a_attribuer_gauche = (n-1)/2;
-    int nb_a_attribuer_droit = n - 1 - nb_a_attribuer_gauche;
-
-    fprintf(stderr, "valeur racine : %d\n", **src);
-    fprintf(stderr, "   nombre à attribuer à gauche : %d\n", nb_a_attribuer_gauche);
-    fprintf(stderr, "   nombre à attribuer à droite : %d\n", nb_a_attribuer_droit);
-
-    Noeud *noeud = alloue_noeud((**src));
-    if (!noeud)
-        return 0;
-
-    if (!(*a)) 
-        *a = noeud;
+//     if (!(*a)) 
+//         *a = noeud;
     
 
-    (*src)++;
+//     (*src)++;
 
-    if ( !construit_presque_complet(&(*a)->fg, src, nb_a_attribuer_gauche)
-        || !construit_presque_complet(&(*a)->fd, src, nb_a_attribuer_droit)){
+//     if ( !construit_presque_complet(&(*a)->fg, src, nb_a_attribuer_gauche)
+//         || !construit_presque_complet(&(*a)->fd, src, nb_a_attribuer_droit)){
 
-            detruit_arbre(*a);
-            return 0;
-        }
+//             detruit_arbre(*a);
+//             return 0;
+//         }
 
-    return 1;
-}
+//     return 1;
+// }
 
-int non_ABR_presque_complet_alea(Arbre * a, int taille){
+// int non_ABR_presque_complet_alea(Arbre * a, int taille){
 
-    int* tmp = (int*) malloc(sizeof(Noeud) * taille);
+//     int* tmp = (int*) malloc(sizeof(Noeud) * taille);
 
-    if (!tmp)
-        return 0;
+//     if (!tmp)
+//         return 0;
 
-    int ** tab = &tmp;
+//     int ** tab = &tmp;
 
-    for (int i = 0; i< taille; i++){
-        (*tab)[i] = rand() % 1000;
-    }
+//     for (int i = 0; i< taille; i++){
+//         (*tab)[i] = rand() % 1000;
+//     }
 
-    if (!construit_presque_complet(a, tab, taille))
-        return 0;
+//     if (!construit_presque_complet(a, tab, taille))
+//         return 0;
 
 
-    return 1;
-}
+//     return 1;
+// }
 
 int construit_quelconque_aux(Arbre *a, int **codage, int* n){
 
@@ -155,10 +128,6 @@ int construit_quelconque(Arbre *a, int **codage, int n){
     return 1;
 }
 
-static int nb_noeuds_gauche(int n){
-    return (n-1)/2;
-}
-
 static void parcours_infixe_2_prefixe_presque_complet_aux(int *prefixe, int *infixe, int prefixe_n, int* infixe_n){
 
     if (prefixe_n == 1){
@@ -198,3 +167,40 @@ void parcours_infixe_2_prefixe_presque_complet(int *prefixe, int *infixe, int n)
     parcours_infixe_2_prefixe_presque_complet_aux(prefixe, infixe, n, &infixe_n);
 }
 
+void parcours_infixe_2_prefixe_filiforme_aleatoire(int *prefixe, int* infixe, int n){
+
+    Arbre a;
+    Arbre* a_ptr = &a;
+
+    for (int i = 0; i < n ; i++){
+        int direction = rand()%2;
+
+        // direction gauche
+        if (direction == 0) {
+            Noeud* noeud = alloue_noeud(infixe[i]);
+            if (!noeud)
+                return ;
+            (*a_ptr)->fg = noeud;
+            (*a_ptr) = (*a_ptr)->fg;
+        }
+
+        // direction droite
+        if (direction == 1){
+            Noeud* noeud = alloue_noeud(infixe[i]);
+            if (!noeud)
+                return ;
+            (*a_ptr)->fd = noeud;
+            (*a_ptr) = (*a_ptr)->fd;
+        }
+
+    }
+
+    for (int i = 0; i < n; i++){
+        prefixe[i] = infixe[i];
+    }
+
+    return ;
+
+}
+
+// git commit -m "ajout du makefile; ajout d'un module structure_arbre qui contient les fonctions alloue_noeud et detruit_arbre, et donc modification des fichiers utilisant ces fonctions afin de supprimer les problèmes de fonctions définies deux fois. début de la fonction de la quetion 2.b"

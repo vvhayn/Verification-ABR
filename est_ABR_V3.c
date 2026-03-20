@@ -4,7 +4,7 @@
 #include <assert.h>
 
 #include "est_ABR.h"
-
+#include "structure_arbre.h"
 Arbre alloue_noeud(int val){
     Noeud* noeud = (Noeud*) malloc(sizeof(Noeud));
     if (noeud == NULL){
