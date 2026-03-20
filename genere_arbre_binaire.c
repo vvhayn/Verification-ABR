@@ -202,5 +202,3 @@ void parcours_infixe_2_prefixe_filiforme_aleatoire(int *prefixe, int* infixe, in
     return ;
 
 }
-
-// git commit -m "ajout du makefile; ajout d'un module structure_arbre qui contient les fonctions alloue_noeud et detruit_arbre, et donc modification des fichiers utilisant ces fonctions afin de supprimer les problèmes de fonctions définies deux fois. début de la fonction de la quetion 2.b"
