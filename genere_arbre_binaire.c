@@ -167,38 +167,45 @@ void parcours_infixe_2_prefixe_presque_complet(int *prefixe, int *infixe, int n)
     parcours_infixe_2_prefixe_presque_complet_aux(prefixe, infixe, n, &infixe_n);
 }
 
-void parcours_infixe_2_prefixe_filiforme_aleatoire(int *prefixe, int* infixe, int n){
-
-    Arbre a;
-    Arbre* a_ptr = &a;
-
-    for (int i = 0; i < n ; i++){
-        int direction = rand()%2;
-
-        // direction gauche
-        if (direction == 0) {
-            Noeud* noeud = alloue_noeud(infixe[i]);
-            if (!noeud)
-                return ;
-            (*a_ptr)->fg = noeud;
-            (*a_ptr) = (*a_ptr)->fg;
-        }
-
-        // direction droite
-        if (direction == 1){
-            Noeud* noeud = alloue_noeud(infixe[i]);
-            if (!noeud)
-                return ;
-            (*a_ptr)->fd = noeud;
-            (*a_ptr) = (*a_ptr)->fd;
-        }
-
+static void parcours_infixe_2_prefixe_filiforme_aleatoire_aux(int *prefixe, int *infixe, char *codage, int *taille_prefixe, int taille_infixe){
+    if (taille_infixe == 1){
+        prefixe[(*taille_prefixe)++] = infixe[taille_infixe];
+        return ;
     }
 
-    for (int i = 0; i < n; i++){
-        prefixe[i] = infixe[i];
+    if (codage[taille_infixe] == 'g'){
+        parcours_infixe_2_prefixe_filiforme_aleatoire_aux(&(prefixe[1]), &(infixe[1]), &(codage[1]), taille_prefixe, taille_infixe - 1);
+        prefixe[(*taille_prefixe)++] = infixe[taille_infixe];
+    }
+
+    if (codage[taille_infixe] == 'd'){
+        prefixe[(*taille_prefixe)++] = infixe[taille_infixe];
+        parcours_infixe_2_prefixe_filiforme_aleatoire_aux(&(prefixe[1]), &(infixe[1]), &(codage[1]), taille_prefixe, taille_infixe - 1);
     }
 
     return ;
-
 }
+
+void parcours_infixe_2_prefixe_filiforme_aleatoire(int *prefixe, int* infixe, int n){
+
+
+    char forme[n];
+
+    for (int i = 0; i < n-1 ; i++){
+        int direction = rand()%2;
+
+        // direction gauche
+        if (direction == 0)
+            forme[i] = 'g';
+
+        // direction droite
+        if (direction == 1)
+            forme[i] = 'd';
+    }
+    char *codage = forme;
+
+    int taille_prefixe = 0;
+    parcours_infixe_2_prefixe_filiforme_aleatoire_aux(prefixe, infixe, codage, &taille_prefixe, n);
+}
+
+

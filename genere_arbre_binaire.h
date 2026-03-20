@@ -16,4 +16,6 @@
     /*Nécessite de faire un appel srand(time(NULL)) pour cette fonction*/
     void parcours_infixe_2_prefixe_filiforme_aleatoire(int *prefixe, int* infixe, int n);
 
+    void parcours_infixe_2_prefixe_filiforme_aleatoire(int *prefixe, int* infixe, int n);
+
 #endif

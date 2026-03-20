@@ -88,6 +88,16 @@ int main(void){
     if (!f)
         return 1;
 
+    int prefixe[4] = {1, 2, 3, 4};
+    int *p = prefixe;
+
+    int infixe[4];
+    int *i = infixe;
+    parcours_infixe_2_prefixe_filiforme_aleatoire(p, i, 4);
+
+    for (int i =0 ; i< 4; i++){
+        printf("%d ", infixe[i]);
+    }
     // if (!non_ABR_presque_complet_alea(&a, 77))
     //     fprintf(stderr, "Erreur de construction\n");
     // else 
@@ -102,31 +112,33 @@ int main(void){
     //     (*tab)[i] = rand() % 1000;
     // }
 
-    int tmp[] = {5, 3, 1, 10, -1, -1, 11, -1, -1, 4, 2, -1, -1, 6, -1, -1, 9, 12, 15, -1, -1, 13, -1, -1, 14, 51, -1, -1, 30, -1, -1};
+    // int tmp[] = {5, 3, 1, 10, -1, -1, 11, -1, -1, 4, 2, -1, -1, 6, -1, -1, 9, 12, 15, -1, -1, 13, -1, -1, 14, 51, -1, -1, 30, -1, -1};
 
-    int *p = tmp;
-    int **tab = &p;
+    // int *p = tmp;
+    // int **tab = &p;
 
 
-    if (!construit_quelconque(&a, tab, 31))
-        fprintf(stderr, "Erreur de construction\n");
-    else{
-        fprintf(stderr, "construction réussie\n");
-    }
 
-    dessine(f, a);
-    creePDF("visualise.dot", "visualise.pdf", a);
-    system("evince visualise.pdf &");
 
-    fprintf(stderr, "hauteur : %d\n", hauteur(a));
+    // if (!construit_quelconque(&a, tab, 31))
+    //     fprintf(stderr, "Erreur de construction\n");
+    // else{
+    //     fprintf(stderr, "construction réussie\n");
+    // }
 
-    fprintf(stderr, "nombre de noeuds : %d\n", nb_noeuds(a));
+    // dessine(f, a);
+    // creePDF("visualise.dot", "visualise.pdf", a);
+    // system("evince visualise.pdf &");
 
-    fprintf(stderr, "nombre de feuilles : %d\n", nb_feuilles(a));
+    // fprintf(stderr, "hauteur : %d\n", hauteur(a));
 
-    fprintf(stderr, "nombre de noeuds internes : %d\n", nb_internes(a));
+    // fprintf(stderr, "nombre de noeuds : %d\n", nb_noeuds(a));
 
-    detruit_arbre(a);
-    fclose(f);
+    // fprintf(stderr, "nombre de feuilles : %d\n", nb_feuilles(a));
+
+    // fprintf(stderr, "nombre de noeuds internes : %d\n", nb_internes(a));
+
+    // detruit_arbre(a);
+    // fclose(f);
     return 0;
 }
