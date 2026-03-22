@@ -4,6 +4,7 @@
 #include "fonctions_de_test.h"
 #include "structure_arbre.h"
 #include <time.h>
+#include <assert.h>
 
 // int construit_presque_complet(Arbre *a, int **src, int n){
 
@@ -167,27 +168,9 @@ void parcours_infixe_2_prefixe_presque_complet(int *prefixe, int *infixe, int n)
     parcours_infixe_2_prefixe_presque_complet_aux(prefixe, infixe, n, &infixe_n);
 }
 
-static void parcours_infixe_2_prefixe_filiforme_aleatoire_aux(int *prefixe, int *infixe, char *codage, int *taille_prefixe, int taille_infixe){
-    if (taille_infixe == 1){
-        prefixe[(*taille_prefixe)++] = infixe[taille_infixe];
-        return ;
-    }
-
-    if (codage[taille_infixe] == 'g'){
-        parcours_infixe_2_prefixe_filiforme_aleatoire_aux(&(prefixe[1]), &(infixe[1]), &(codage[1]), taille_prefixe, taille_infixe - 1);
-        prefixe[(*taille_prefixe)++] = infixe[taille_infixe];
-    }
-
-    if (codage[taille_infixe] == 'd'){
-        prefixe[(*taille_prefixe)++] = infixe[taille_infixe];
-        parcours_infixe_2_prefixe_filiforme_aleatoire_aux(&(prefixe[1]), &(infixe[1]), &(codage[1]), taille_prefixe, taille_infixe - 1);
-    }
-
-    return ;
-}
-
 void parcours_infixe_2_prefixe_filiforme_aleatoire(int *prefixe, int* infixe, int n){
 
+    assert(n>0);
 
     char forme[n];
 
@@ -195,17 +178,40 @@ void parcours_infixe_2_prefixe_filiforme_aleatoire(int *prefixe, int* infixe, in
         int direction = rand()%2;
 
         // direction gauche
-        if (direction == 0)
+        if (direction == 0) {
             forme[i] = 'g';
+            fprintf(stderr, "%c ", forme[i]);
+        }
 
         // direction droite
-        if (direction == 1)
+        if (direction == 1) {
             forme[i] = 'd';
+            fprintf(stderr, "%c ", forme[i]);
+        }
     }
+
+    forme[n-1] = '\0';
     char *codage = forme;
 
-    int taille_prefixe = 0;
-    parcours_infixe_2_prefixe_filiforme_aleatoire_aux(prefixe, infixe, codage, &taille_prefixe, n);
-}
+    int indice_gauche = 0;
+    int indice_droit = n-1;
+    int i = 0;
+    while (i < n){
 
+        if (codage[i] == 'd'){
+            prefixe[i] = infixe[indice_gauche++];
+        }
+
+        if (codage[i] == 'g'){
+            prefixe[i] = infixe[indice_droit--];
+        }
+
+        i++;
+    }
+
+    // ajout du dernier élément restant
+    prefixe[n-1] = infixe[indice_gauche]; // choisir l'indice droit aurait été équivalent puisque les deux tombent sur la même valeur à la fin
+
+    return ;
+}
 
