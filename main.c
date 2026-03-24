@@ -88,14 +88,14 @@ int main(void){
     if (!f)
         return 1;
 
-    int infixe[4] = {1, 2, 3, 4};
-    int prefixe[4];
+    int infixe[5] = {1, 2, 3, 4, 5};
+    int prefixe[11];
 
     int *p = prefixe;
     int *i = infixe;
-    parcours_infixe_2_prefixe_filiforme_aleatoire(p, i, 4);
+    parcours_infixe_2_prefixe_quelconque_aleatoire(p, i, 5);
 
-    for (int i =0 ; i< 4; i++){
+    for (int i =0 ; i< 11; i++){
         printf("%d ", prefixe[i]);
     }
     // if (!non_ABR_presque_complet_alea(&a, 77))

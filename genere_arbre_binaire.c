@@ -215,3 +215,27 @@ void parcours_infixe_2_prefixe_filiforme_aleatoire(int *prefixe, int* infixe, in
     return ;
 }
 
+static void parcours_infixe_2_prefixe_quelconque_aleatoire_aux(int * prefixe, int * infixe, int n, int *i_pref){
+    // if (n == 1){
+    //     prefixe[(*i_pref)++] = infixe[0];
+    //     return ;
+    // }
+
+    if (n == 0){
+        prefixe[(*i_pref)++] = -1;
+        return ;
+    }
+
+    int k = rand()%n;
+
+    prefixe[(*i_pref)++] = infixe[k];
+
+    parcours_infixe_2_prefixe_quelconque_aleatoire_aux(prefixe, infixe, k, i_pref);
+    parcours_infixe_2_prefixe_quelconque_aleatoire_aux(prefixe, infixe + k+1, n-k-1, i_pref);
+}
+
+void parcours_infixe_2_prefixe_quelconque_aleatoire(int * prefixe, int * infixe, int n){
+
+    int h = 0;
+    parcours_infixe_2_prefixe_quelconque_aleatoire_aux(prefixe, infixe, n, &h);
+}
