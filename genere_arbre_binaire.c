@@ -278,10 +278,10 @@ int ABR_presque_complet_alea(Arbre * a, int taille){
         
 
         int k = rand()%30;
-        if (!verif_presence(tab, i, k))
+        if (!verif_presence(tab, i, k + 1))
             continue;
 
-        somme += k;
+        somme += k + 1;
         tab[i++] = -1;
         tab[i++] = somme;
 
@@ -330,7 +330,7 @@ int non_ABR_presque_complet_alea(Arbre * a, int taille){
         
 
         int k = rand()%30;
-        if (!verif_presence(tab, i, k))
+        if (!verif_presence(tab, i, k + 1))
             continue;
 
         // on divise la taille par 2 afin de ne pas avoir un parcours infixe linéaire
@@ -339,7 +339,7 @@ int non_ABR_presque_complet_alea(Arbre * a, int taille){
             somme = somme/2;
         }
         else 
-            somme += k;
+            somme += k + 1;
         tab[i++] = -1;
         tab[i++] = somme;
     }
