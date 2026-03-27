@@ -88,16 +88,21 @@ int main(void){
     if (!f)
         return 1;
 
-    int infixe[5] = {1, 2, 3, 4, 5};
-    int prefixe[11];
+    // int infixe[7] = {1, 2, 3, 4, 5, 6, 7};
+    // int prefixe[7];
 
-    int *p = prefixe;
-    int *i = infixe;
-    parcours_infixe_2_prefixe_quelconque_aleatoire(p, i, 5);
+    // int *p = prefixe;
+    // int *i = infixe;
 
-    for (int i =0 ; i< 11; i++){
-        printf("%d ", prefixe[i]);
-    }
+    // for (int i =0 ; i< 7; i++){
+    //     printf("%d ", prefixe[i]);
+    // }
+    // printf("\n");
+    // parcours_infixe_2_prefixe_presque_complet(p, i, 7);
+
+    // for (int i =0 ; i< 7; i++){
+    //     printf("%d ", prefixe[i]);
+    // }
     // if (!non_ABR_presque_complet_alea(&a, 77))
     //     fprintf(stderr, "Erreur de construction\n");
     // else 
@@ -120,25 +125,25 @@ int main(void){
 
 
 
-    // if (!construit_quelconque(&a, tab, 31))
-    //     fprintf(stderr, "Erreur de construction\n");
-    // else{
-    //     fprintf(stderr, "construction réussie\n");
-    // }
+    if (!ABR_presque_complet_alea(&a, 10))
+        fprintf(stderr, "Erreur de construction\n");
+    else{
+        fprintf(stderr, "construction réussie\n");
+    }
 
-    // dessine(f, a);
-    // creePDF("visualise.dot", "visualise.pdf", a);
-    // system("evince visualise.pdf &");
+    dessine(f, a);
+    creePDF("visualise.dot", "visualise.pdf", a);
+    system("evince visualise.pdf &");
 
-    // fprintf(stderr, "hauteur : %d\n", hauteur(a));
+    fprintf(stderr, "hauteur : %d\n", hauteur(a));
 
-    // fprintf(stderr, "nombre de noeuds : %d\n", nb_noeuds(a));
+    fprintf(stderr, "nombre de noeuds : %d\n", nb_noeuds(a));
 
-    // fprintf(stderr, "nombre de feuilles : %d\n", nb_feuilles(a));
+    fprintf(stderr, "nombre de feuilles : %d\n", nb_feuilles(a));
 
-    // fprintf(stderr, "nombre de noeuds internes : %d\n", nb_internes(a));
+    fprintf(stderr, "nombre de noeuds internes : %d\n", nb_internes(a));
 
-    // detruit_arbre(a);
-    // fclose(f);
+    detruit_arbre(a);
+    fclose(f);
     return 0;
 }

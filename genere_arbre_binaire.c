@@ -5,6 +5,7 @@
 #include "structure_arbre.h"
 #include <time.h>
 #include <assert.h>
+#include <math.h>
 
 // int construit_presque_complet(Arbre *a, int **src, int n){
 
@@ -14,9 +15,9 @@
 //     int nb_a_attribuer_gauche = (n-1)/2;
 //     int nb_a_attribuer_droit = n - 1 - nb_a_attribuer_gauche;
 
-//     fprintf(stderr, "valeur racine : %d\n", **src);
-//     fprintf(stderr, "   nombre à attribuer à gauche : %d\n", nb_a_attribuer_gauche);
-//     fprintf(stderr, "   nombre à attribuer à droite : %d\n", nb_a_attribuer_droit);
+//     // fprintf(stderr, "valeur racine : %d\n", **src);
+//     // fprintf(stderr, "   nombre à attribuer à gauche : %d\n", nb_a_attribuer_gauche);
+//     // fprintf(stderr, "   nombre à attribuer à droite : %d\n", nb_a_attribuer_droit);
 
 //     Noeud *noeud = alloue_noeud((**src));
 //     if (!noeud)
@@ -129,43 +130,52 @@ int construit_quelconque(Arbre *a, int **codage, int n){
     return 1;
 }
 
-static void parcours_infixe_2_prefixe_presque_complet_aux(int *prefixe, int *infixe, int prefixe_n, int* infixe_n){
 
-    if (prefixe_n == 1){
-        infixe[(*infixe_n)++] = *prefixe;
+static int nombre_noeuds_gauche(int n){
+
+    if (n<=1)
+        return 0;
+
+    int h = floor(log2(n));
+
+    int nb_noeuds_dernier_etage = n - pow(2, h) + 1;
+
+    int capacite_gauche_dernier_etage = pow(2, h-1);
+
+    // // est-ce que le nombre de noeuds est supérieur à la capacité gauche du dernier étage ? (incomplet sur la partie droite)
+    // // si oui, renvoyer la moitié de la capacité du dernier étage, sinon renvoyer le nombre de noeuds (car incomplet sur la partie gauche)
+    // int sous_res =  nb_noeuds_dernier_etage < capacite_gauche_dernier_etage ? nb_noeuds_dernier_etage : capacite_gauche_dernier_etage;
+
+    // on renvoie les noeuds du plus grand arbre complet faisable + l'étage incomplet
+    int nb_noeuds_gauche = (pow(2, h - 1) - 1) +
+                          (nb_noeuds_dernier_etage < capacite_gauche_dernier_etage
+                           ? nb_noeuds_dernier_etage
+                           : capacite_gauche_dernier_etage);
+
+    return nb_noeuds_gauche;
+}
+
+static void parcours_infixe_2_prefixe_presque_complet_aux(int *prefixe, int *infixe, int n, int* prefixe_n){
+
+    //arbre vide
+    if (n <= 0) 
         return ;
-    }
 
-    int quantite_partition = (prefixe_n -1)/2;
-    int tmp_gauche[quantite_partition];
+    int quantite_partition_gauche = nombre_noeuds_gauche(n);
 
-    for (int i = 1; i <= (quantite_partition); i++){
-        tmp_gauche[i-1] = prefixe[i];
-        // fprintf(stderr, "%d\n", tmp_gauche[i-1]);
-    }
+    prefixe[(*prefixe_n)++] = infixe[quantite_partition_gauche]; 
 
-    int *tab_gauche = tmp_gauche;
+    parcours_infixe_2_prefixe_presque_complet_aux(prefixe, infixe, quantite_partition_gauche, prefixe_n);
 
-    parcours_infixe_2_prefixe_presque_complet_aux(tab_gauche, infixe, (prefixe_n - 1) / 2, infixe_n);
+    int quantite_partition_droite = n - 1 - quantite_partition_gauche;
 
-    infixe[(*infixe_n)++] = prefixe[0]; 
-
-    int tmp_droit[quantite_partition];
-
-    // On a finit de parcourir la première partition du type [racine, p1, p2];
-    //  on parcourt maintenant la deuxième, d'où le offset de i + quantite_partition
-    for (int i = 1; i <= (quantite_partition); i++){
-        tmp_droit[i-1] = prefixe[i + quantite_partition];
-    }
-    int *tab_droit = tmp_droit;
-
-    parcours_infixe_2_prefixe_presque_complet_aux(tab_droit, infixe, (prefixe_n - 1) / 2, infixe_n);
+    parcours_infixe_2_prefixe_presque_complet_aux(prefixe, infixe + 1 + quantite_partition_gauche, quantite_partition_droite, prefixe_n);
 
 }
 
 void parcours_infixe_2_prefixe_presque_complet(int *prefixe, int *infixe, int n){
-    int infixe_n = 0;
-    parcours_infixe_2_prefixe_presque_complet_aux(prefixe, infixe, n, &infixe_n);
+    int prefixe_n = 0;
+    parcours_infixe_2_prefixe_presque_complet_aux(prefixe, infixe, n, &prefixe_n);
 }
 
 void parcours_infixe_2_prefixe_filiforme_aleatoire(int *prefixe, int* infixe, int n){
@@ -239,3 +249,71 @@ void parcours_infixe_2_prefixe_quelconque_aleatoire(int * prefixe, int * infixe,
     int h = 0;
     parcours_infixe_2_prefixe_quelconque_aleatoire_aux(prefixe, infixe, n, &h);
 }
+
+static int verif_presence(int tab[], int taille, int x){
+    for (int i = 0; i < taille; i++){
+        if (tab[i] == x)
+            return 0;
+    }
+    return 1;
+}
+
+int ABR_presque_complet_alea(Arbre * a, int taille){
+    assert(taille >=0);
+    
+    int taille_codage = 2*taille+1;
+    int tab[taille_codage];
+    int i = 0;
+    int somme = 0;
+    while (i < taille_codage){
+
+        
+
+        int k = rand()%30;
+        if (!verif_presence(tab, i, k))
+            continue;
+
+        somme += k;
+        tab[i++] = -1;
+        tab[i++] = somme;
+
+    }
+    
+    // ALTERNER -1 ET UNE VALEUR
+
+    int *infixe = tab;
+
+    int p[taille_codage];
+    // for (int i =0; i < taille_codage; i++){
+    //     p[i] = -1;
+    // }
+    int *prefixe = p;
+
+
+
+
+
+
+    fprintf(stderr, "parcours infixe avant la création du prefixe : ");
+    for (int i = 0; i < taille_codage; i++){
+        fprintf(stderr, "%d ", infixe[i]);
+    }
+    fprintf(stderr, "\n");
+    
+    parcours_infixe_2_prefixe_presque_complet(prefixe, infixe, taille_codage);
+
+    fprintf(stderr, "parcours prefixe : ");
+    for (int i = 0; i < taille_codage; i++){
+        fprintf(stderr, "%d ", prefixe[i]);
+    }
+    fprintf(stderr, "\n");
+
+    if (!construit_quelconque(a, &prefixe, taille_codage))
+        return 0;
+
+    return 1;
+}
+
+
+
+// Je fais un affichage en dot pour m'assurer que l'arbre a été bien représenté après

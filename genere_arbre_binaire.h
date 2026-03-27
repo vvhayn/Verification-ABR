@@ -13,10 +13,15 @@
 
     void parcours_infixe_2_prefixe_presque_complet(int *prefixe, int *infixe, int n);
 
-    /*Nécessite de faire un appel srand(time(NULL)) pour cette fonction*/
+    /*Nécessite de faire un appel srand(time(NULL)) pour cette fonction; infixe et prefixe
+    doivent être de la même taille*/
     void parcours_infixe_2_prefixe_filiforme_aleatoire(int *prefixe, int* infixe, int n);
 
-    /*Nécessite de faire un appel srand(time(NULL)) pour cette fonction*/
+    /*Nécessite de faire un appel srand(time(NULL)) pour cette fonction;
+    si infixe est de taille n, alors prefixe doit être de taille 2n + 1*/
     void parcours_infixe_2_prefixe_quelconque_aleatoire(int * prefixe, int * infixe, int n);
+
+    int ABR_presque_complet_alea(Arbre * a, int taille);
+
 
 #endif

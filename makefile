@@ -17,7 +17,7 @@ OBJ     = main.o \
 # Cible principale : édition des liens
 # ------------------------------------------------------------
 $(TARGET): $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) -o $(TARGET)
+	$(CC) $(CFLAGS) $(OBJ) -o $(TARGET) -lm
 
 # ------------------------------------------------------------
 # Compilation des fichiers objets avec leurs dépendances
