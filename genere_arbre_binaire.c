@@ -205,23 +205,31 @@ void parcours_infixe_2_prefixe_filiforme_aleatoire(int *prefixe, int* infixe, in
 
     int indice_gauche = 0;
     int indice_droit = n-1;
-    int i = 0;
-    while (i < n){
+    int i_codage = 0; // peut aller jusqu'à n dans la boucle
+    int i_prefixe = 0; // peut aller jusqu'à 2*n+1 dans la boucle
+    while (i_codage < (n - 1)){ // on ajoute le dernier élément séparement car le caractère 'codage' correspondant est '\0' 
 
-        if (codage[i] == 'd'){
-            prefixe[i] = infixe[indice_gauche++];
+        if (codage[i_codage] == 'd'){
+            prefixe[i_prefixe++] = infixe[indice_gauche++];
+            prefixe[i_prefixe++] = -1;
         }
 
-        if (codage[i] == 'g'){
-            prefixe[i] = infixe[indice_droit--];
+        if (codage[i_codage] == 'g'){
+            prefixe[i_prefixe++] = infixe[indice_droit--];
         }
 
-        i++;
+        i_codage++;
     }
 
     // ajout du dernier élément restant
-    prefixe[n-1] = infixe[indice_gauche]; // choisir l'indice droit aurait été équivalent puisque les deux tombent sur la même valeur à la fin
+    prefixe[i_prefixe] = infixe[indice_gauche]; // choisir l'indice droit aurait été équivalent puisque les deux tombent sur la même valeur à la fin
+    // i_codage++;
+    i_prefixe++;
 
+    int taille_codage = 2*n + 1;
+    while (i_prefixe < taille_codage){
+        prefixe[i_prefixe++] = -1;
+    }
     return ;
 }
 
@@ -289,18 +297,122 @@ int ABR_presque_complet_alea(Arbre * a, int taille){
     // }
     int *prefixe = p;
 
+    // fprintf(stderr, "parcours infixe avant la création du prefixe : ");
+    // for (int i = 0; i < taille_codage; i++){
+    //     fprintf(stderr, "%d ", infixe[i]);
+    // }
+    // fprintf(stderr, "\n");
+    
+    parcours_infixe_2_prefixe_presque_complet(prefixe, infixe, taille_codage);
 
+    // fprintf(stderr, "parcours prefixe : ");
+    // for (int i = 0; i < taille_codage; i++){
+    //     fprintf(stderr, "%d ", prefixe[i]);
+    // }
+    // fprintf(stderr, "\n");
 
+    if (!construit_quelconque(a, &prefixe, taille_codage))
+        return 0;
 
+    return 1;
+}
 
+int non_ABR_presque_complet_alea(Arbre * a, int taille){
+    assert(taille >=0);
+    
+    fprintf(stderr, "non_abr");
+    int taille_codage = 2*taille+1;
+    int tab[taille_codage];
+    int i = 0;
+    int somme = 0;
+    while (i < taille_codage){
+
+        
+
+        int k = rand()%30;
+        if (!verif_presence(tab, i, k))
+            continue;
+
+        // on divise la taille par 2 afin de ne pas avoir un parcours infixe linéaire
+        if (i%4 == 0){
+            fprintf(stderr, "division");
+            somme = somme/2;
+        }
+        else 
+            somme += k;
+        tab[i++] = -1;
+        tab[i++] = somme;
+    }
+    
+    // ALTERNER -1 ET UNE VALEUR
+
+    int *infixe = tab;
+
+    int p[taille_codage];
+    // for (int i =0; i < taille_codage; i++){
+    //     p[i] = -1;
+    // }
+    int *prefixe = p;
+
+    // fprintf(stderr, "parcours infixe avant la création du prefixe : ");
+    // for (int i = 0; i < taille_codage; i++){
+    //     fprintf(stderr, "%d ", infixe[i]);
+    // }
+    // fprintf(stderr, "\n");
+    
+    parcours_infixe_2_prefixe_presque_complet(prefixe, infixe, taille_codage);
+
+    // fprintf(stderr, "parcours prefixe : ");
+    // for (int i = 0; i < taille_codage; i++){
+    //     fprintf(stderr, "%d ", prefixe[i]);
+    // }
+    // fprintf(stderr, "\n");
+
+    if (!construit_quelconque(a, &prefixe, taille_codage))
+        return 0;
+
+    return 1;
+}
+
+int ABR_filiforme_alea(Arbre * a, int taille){
+
+    assert(taille >=0);
+    
+    int taille_codage = 2*taille+1;
+    int tab[taille];
+    int i = 0;
+    int somme = 0;
+    while (i < taille){
+
+        
+
+        int k = rand()%30;
+        if (!verif_presence(tab, i, somme + k + 1))
+            continue;
+
+        somme += k + 1;
+        // tab[i++] = -1;
+        tab[i++] = somme;
+
+    }
+    
+    // ALTERNER -1 ET UNE VALEUR
+
+    int *infixe = tab;
+
+    int p[taille_codage];
+    // for (int i =0; i < taille_codage; i++){
+    //     p[i] = -1;
+    // }
+    int *prefixe = p;
 
     fprintf(stderr, "parcours infixe avant la création du prefixe : ");
-    for (int i = 0; i < taille_codage; i++){
+    for (int i = 0; i < taille; i++){
         fprintf(stderr, "%d ", infixe[i]);
     }
     fprintf(stderr, "\n");
     
-    parcours_infixe_2_prefixe_presque_complet(prefixe, infixe, taille_codage);
+    parcours_infixe_2_prefixe_filiforme_aleatoire(prefixe, infixe, taille);
 
     fprintf(stderr, "parcours prefixe : ");
     for (int i = 0; i < taille_codage; i++){
@@ -312,8 +424,65 @@ int ABR_presque_complet_alea(Arbre * a, int taille){
         return 0;
 
     return 1;
+
 }
 
+int non_ABR_filiforme_alea(Arbre * a, int taille){
 
+    assert(taille >=0);
+    
+    int taille_codage = 2*taille+1;
+    int tab[taille];
+    int i = 0;
+    int somme = 0;
+    while (i < taille){
 
-// Je fais un affichage en dot pour m'assurer que l'arbre a été bien représenté après
+        
+
+        int k = rand()%30;
+        if (!verif_presence(tab, i, somme + k + 1))
+            continue;
+
+        if (i%2 == 0){
+            fprintf(stderr, "division");
+            somme = somme/2;
+        }
+        else 
+            somme += k + 1;
+
+        // somme += k;
+        // tab[i++] = -1;
+        tab[i++] = somme;
+
+    }
+    
+    // ALTERNER -1 ET UNE VALEUR
+
+    int *infixe = tab;
+
+    int p[taille_codage];
+    // for (int i =0; i < taille_codage; i++){
+    //     p[i] = -1;
+    // }
+    int *prefixe = p;
+
+    fprintf(stderr, "parcours infixe avant la création du prefixe : ");
+    for (int i = 0; i < taille; i++){
+        fprintf(stderr, "%d ", infixe[i]);
+    }
+    fprintf(stderr, "\n");
+    
+    parcours_infixe_2_prefixe_filiforme_aleatoire(prefixe, infixe, taille);
+
+    fprintf(stderr, "parcours prefixe : ");
+    for (int i = 0; i < taille_codage; i++){
+        fprintf(stderr, "%d ", prefixe[i]);
+    }
+    fprintf(stderr, "\n");
+
+    if (!construit_quelconque(a, &prefixe, taille_codage))
+        return 0;
+
+    return 1;
+
+}

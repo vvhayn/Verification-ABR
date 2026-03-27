@@ -125,7 +125,7 @@ int main(void){
 
 
 
-    if (!ABR_presque_complet_alea(&a, 10))
+    if (!ABR_filiforme_alea(&a, 10))
         fprintf(stderr, "Erreur de construction\n");
     else{
         fprintf(stderr, "construction réussie\n");
