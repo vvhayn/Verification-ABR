@@ -1,3 +1,3 @@
-break genere_arbre_binaire.c:185
+break genere_arbre_binaire.c:ABR_quelconque_alea
 run
 source break_del.gdb

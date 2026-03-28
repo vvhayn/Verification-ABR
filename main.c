@@ -88,19 +88,27 @@ int main(void){
     if (!f)
         return 1;
 
-    // int infixe[7] = {1, 2, 3, 4, 5, 6, 7};
-    // int prefixe[7];
+    // int taille = 7;
+    // int taille_codage = 2*taille + 1;
+    
+    // int * infixe = (int*) malloc(taille * sizeof(int));
+    // for (int i = 0; i < taille; i++){
+    //     infixe[i] = i;
+    // }
+    // int prefixe[taille_codage];
+
+
 
     // int *p = prefixe;
     // int *i = infixe;
 
-    // for (int i =0 ; i< 7; i++){
-    //     printf("%d ", prefixe[i]);
+    // for (int i =0 ; i< taille; i++){
+    //     printf("%d ", infixe[i]);
     // }
     // printf("\n");
-    // parcours_infixe_2_prefixe_presque_complet(p, i, 7);
+    // parcours_infixe_2_prefixe_quelconque_aleatoire(p, i, 7);
 
-    // for (int i =0 ; i< 7; i++){
+    // for (int i =0 ; i< taille_codage; i++){
     //     printf("%d ", prefixe[i]);
     // }
     // if (!non_ABR_presque_complet_alea(&a, 77))
@@ -108,24 +116,13 @@ int main(void){
     // else 
     //     fprintf(stderr, "construction réussie\n");
 
-    // int* tmp = (int*) malloc(sizeof(Noeud) * 10);
-
-    // if (!tmp)
-    //     return 0;
-
-    // for (int i = 0; i< 10; i++){
-    //     (*tab)[i] = rand() % 1000;
-    // }
-
     // int tmp[] = {5, 3, 1, 10, -1, -1, 11, -1, -1, 4, 2, -1, -1, 6, -1, -1, 9, 12, 15, -1, -1, 13, -1, -1, 14, 51, -1, -1, 30, -1, -1};
 
     // int *p = tmp;
     // int **tab = &p;
 
 
-
-
-    if (!ABR_filiforme_alea(&a, 10))
+    if (!ABR_quelconque_alea(&a, 7))
         fprintf(stderr, "Erreur de construction\n");
     else{
         fprintf(stderr, "construction réussie\n");

@@ -31,4 +31,8 @@
 
     int non_ABR_filiforme_alea(Arbre * a, int taille);
 
+    int ABR_quelconque_alea(Arbre * a, int taille);
+
+    void parcours_infixe_2_prefixe_quelconque_aleatoire(int * prefixe, int * infixe, int n);
+
 #endif

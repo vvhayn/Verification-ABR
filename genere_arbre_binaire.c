@@ -173,12 +173,12 @@ static void parcours_infixe_2_prefixe_presque_complet_aux(int *prefixe, int *inf
 
 }
 
-void parcours_infixe_2_prefixe_presque_complet(int *prefixe, int *infixe, int n){
+static void parcours_infixe_2_prefixe_presque_complet(int *prefixe, int *infixe, int n){
     int prefixe_n = 0;
     parcours_infixe_2_prefixe_presque_complet_aux(prefixe, infixe, n, &prefixe_n);
 }
 
-void parcours_infixe_2_prefixe_filiforme_aleatoire(int *prefixe, int* infixe, int n){
+static void parcours_infixe_2_prefixe_filiforme_aleatoire(int *prefixe, int* infixe, int n){
 
     assert(n>0);
 
@@ -252,6 +252,7 @@ static void parcours_infixe_2_prefixe_quelconque_aleatoire_aux(int * prefixe, in
     parcours_infixe_2_prefixe_quelconque_aleatoire_aux(prefixe, infixe + k+1, n-k-1, i_pref);
 }
 
+// static 
 void parcours_infixe_2_prefixe_quelconque_aleatoire(int * prefixe, int * infixe, int n){
 
     int h = 0;
@@ -485,4 +486,91 @@ int non_ABR_filiforme_alea(Arbre * a, int taille){
 
     return 1;
 
+}
+
+int ABR_quelconque_alea(Arbre * a, int taille){
+
+    assert(taille >=0);
+    
+    int taille_codage = 2*taille+1;
+    int tab[taille];
+    int i = 0;
+    int somme = 0;
+    while (i < taille){
+        int k = rand()%30;
+        if (!verif_presence(tab, i, k + 1))
+            continue;
+
+        somme += k + 1; // le +1 évite les doublon
+        tab[i++] = somme;
+    }
+    
+    int *infixe = tab;
+    int p[taille_codage];
+    int *prefixe = p;
+
+    // fprintf(stderr, "parcours infixe avant la création du prefixe : ");
+    // for (int i = 0; i < taille; i++){
+    //     fprintf(stderr, "%d ", infixe[i]);
+    // }
+    // fprintf(stderr, "\n");
+
+    parcours_infixe_2_prefixe_quelconque_aleatoire(prefixe, infixe, taille);
+
+    // fprintf(stderr, "parcours prefixe : ");
+    // for (int i = 0; i < taille_codage; i++){
+    //     fprintf(stderr, "%d ", prefixe[i]);
+    // }
+    // fprintf(stderr, "\n");
+
+    if (!construit_quelconque(a, &prefixe, taille_codage))
+        return 0;
+
+    return 1;
+}
+
+int non_ABR_quelconque_alea(Arbre * a, int taille){
+
+    assert(taille >=0);
+    
+    int taille_codage = 2*taille+1;
+    int tab[taille];
+    int i = 0;
+    int somme = 0;
+    while (i < taille){
+        int k = rand()%30;
+        if (!verif_presence(tab, i, k + 1))
+            continue;
+
+        if (i%2 == 0){
+            fprintf(stderr, "division");
+            somme = somme/2;
+        }
+        else 
+            somme += k + 1; // le +1 évite les doublons
+        tab[i++] = somme;
+    }
+    
+    int *infixe = tab;
+    int p[taille_codage];
+    int *prefixe = p;
+
+    // fprintf(stderr, "parcours infixe avant la création du prefixe : ");
+    // for (int i = 0; i < taille; i++){
+    //     fprintf(stderr, "%d ", infixe[i]);
+    // }
+    // fprintf(stderr, "\n");
+
+    parcours_infixe_2_prefixe_quelconque_aleatoire(prefixe, infixe, taille);
+
+    // fprintf(stderr, "parcours prefixe : ");
+    // for (int i = 0; i < taille_codage; i++){
+    //     fprintf(stderr, "%d ", prefixe[i]);
+    // }
+    // fprintf(stderr, "\n");
+
+    if (!construit_quelconque(a, &prefixe, taille_codage))
+        return 0;
+
+    return 1;
 }
