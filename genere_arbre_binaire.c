@@ -117,12 +117,12 @@ int construit_quelconque(Arbre *a, int **codage, int n){
     (*codage)++;
 
     if (!construit_quelconque_aux(&((*a)->fg), codage, &n)){
-        fprintf(stderr, "construit_quelconque_aux a renvoyé 0");
+        // fprintf(stderr, "construit_quelconque_aux a renvoyé 0");
         detruit_arbre(*a);
         return 0;
     }
     if (!construit_quelconque_aux(&((*a)->fd), codage, &n)){
-        fprintf(stderr, "construit_quelconque_aux a renvoyé 0");
+        // fprintf(stderr, "construit_quelconque_aux a renvoyé 0");
         detruit_arbre(*a);
         return 0;
     }
@@ -190,13 +190,13 @@ static void parcours_infixe_2_prefixe_filiforme_aleatoire(int *prefixe, int* inf
         // direction gauche
         if (direction == 0) {
             forme[i] = 'g';
-            fprintf(stderr, "%c ", forme[i]);
+            // fprintf(stderr, "%c ", forme[i]);
         }
 
         // direction droite
         if (direction == 1) {
             forme[i] = 'd';
-            fprintf(stderr, "%c ", forme[i]);
+            // fprintf(stderr, "%c ", forme[i]);
         }
     }
 
@@ -278,7 +278,7 @@ int ABR_presque_complet_alea(Arbre * a, int taille){
 
         
 
-        int k = rand()%30;
+        int k = rand()%100000;
         if (!verif_presence(tab, i, k + 1))
             continue;
 
@@ -321,7 +321,7 @@ int ABR_presque_complet_alea(Arbre * a, int taille){
 int non_ABR_presque_complet_alea(Arbre * a, int taille){
     assert(taille >=0);
     
-    fprintf(stderr, "non_abr");
+    // fprintf(stderr, "non_abr");
     int taille_codage = 2*taille+1;
     int tab[taille_codage];
     int i = 0;
@@ -330,13 +330,13 @@ int non_ABR_presque_complet_alea(Arbre * a, int taille){
 
         
 
-        int k = rand()%30;
+        int k = rand()%100000;
         if (!verif_presence(tab, i, k + 1))
             continue;
 
         // on divise la taille par 2 afin de ne pas avoir un parcours infixe linéaire
         if (i%4 == 0){
-            fprintf(stderr, "division");
+            // fprintf(stderr, "division");
             somme = somme/2;
         }
         else 
@@ -387,7 +387,7 @@ int ABR_filiforme_alea(Arbre * a, int taille){
 
         
 
-        int k = rand()%30;
+        int k = rand()%100000;
         if (!verif_presence(tab, i, somme + k + 1))
             continue;
 
@@ -407,19 +407,19 @@ int ABR_filiforme_alea(Arbre * a, int taille){
     // }
     int *prefixe = p;
 
-    fprintf(stderr, "parcours infixe avant la création du prefixe : ");
-    for (int i = 0; i < taille; i++){
-        fprintf(stderr, "%d ", infixe[i]);
-    }
-    fprintf(stderr, "\n");
+    // fprintf(stderr, "parcours infixe avant la création du prefixe : ");
+    // for (int i = 0; i < taille; i++){
+    //     fprintf(stderr, "%d ", infixe[i]);
+    // }
+    // fprintf(stderr, "\n");
     
     parcours_infixe_2_prefixe_filiforme_aleatoire(prefixe, infixe, taille);
 
-    fprintf(stderr, "parcours prefixe : ");
-    for (int i = 0; i < taille_codage; i++){
-        fprintf(stderr, "%d ", prefixe[i]);
-    }
-    fprintf(stderr, "\n");
+    // fprintf(stderr, "parcours prefixe : ");
+    // for (int i = 0; i < taille_codage; i++){
+    //     fprintf(stderr, "%d ", prefixe[i]);
+    // }
+    // fprintf(stderr, "\n");
 
     if (!construit_quelconque(a, &prefixe, taille_codage))
         return 0;
@@ -440,12 +440,12 @@ int non_ABR_filiforme_alea(Arbre * a, int taille){
 
         
 
-        int k = rand()%30;
+        int k = rand()%100000;
         if (!verif_presence(tab, i, somme + k + 1))
             continue;
 
         if (i%2 == 0){
-            fprintf(stderr, "division");
+            // fprintf(stderr, "division");
             somme = somme/2;
         }
         else 
@@ -467,19 +467,19 @@ int non_ABR_filiforme_alea(Arbre * a, int taille){
     // }
     int *prefixe = p;
 
-    fprintf(stderr, "parcours infixe avant la création du prefixe : ");
-    for (int i = 0; i < taille; i++){
-        fprintf(stderr, "%d ", infixe[i]);
-    }
-    fprintf(stderr, "\n");
+    // fprintf(stderr, "parcours infixe avant la création du prefixe : ");
+    // for (int i = 0; i < taille; i++){
+    //     fprintf(stderr, "%d ", infixe[i]);
+    // }
+    // fprintf(stderr, "\n");
     
     parcours_infixe_2_prefixe_filiforme_aleatoire(prefixe, infixe, taille);
 
-    fprintf(stderr, "parcours prefixe : ");
-    for (int i = 0; i < taille_codage; i++){
-        fprintf(stderr, "%d ", prefixe[i]);
-    }
-    fprintf(stderr, "\n");
+    // fprintf(stderr, "parcours prefixe : ");
+    // for (int i = 0; i < taille_codage; i++){
+    //     fprintf(stderr, "%d ", prefixe[i]);
+    // }
+    // fprintf(stderr, "\n");
 
     if (!construit_quelconque(a, &prefixe, taille_codage))
         return 0;
@@ -497,7 +497,7 @@ int ABR_quelconque_alea(Arbre * a, int taille){
     int i = 0;
     int somme = 0;
     while (i < taille){
-        int k = rand()%30;
+        int k = rand()%100000;
         if (!verif_presence(tab, i, k + 1))
             continue;
 
@@ -538,12 +538,12 @@ int non_ABR_quelconque_alea(Arbre * a, int taille){
     int i = 0;
     int somme = 0;
     while (i < taille){
-        int k = rand()%30;
+        int k = rand()%100000;
         if (!verif_presence(tab, i, k + 1))
             continue;
 
         if (i%2 == 0){
-            fprintf(stderr, "division");
+            // fprintf(stderr, "division");
             somme = somme/2;
         }
         else 

@@ -16,20 +16,20 @@
 //     return noeud;
 // }
 
-int abr_max(Arbre a, long long * nb_max){
+int abr_max(Arbre a, long long *nb_visites) {
     assert(a != NULL);
-    while (a->fd != NULL){
+    while (a->fd != NULL) {
         a = a->fd;
-        (*nb_max) += 1;
+        (*nb_visites)++;  // Incrémente nb_visites à chaque nœud visité
     }
     return a->valeur;
 }
 
-int abr_min(Arbre a, long long * nb_min){
+int abr_min(Arbre a, long long *nb_visites) {
     assert(a != NULL);
-    while (a->fg != NULL){
+    while (a->fg != NULL) {
         a = a->fg;
-        (*nb_min) += 1;
+        (*nb_visites)++;  // Incrémente nb_visites à chaque nœud visité
     }
     return a->valeur;
 }
