@@ -7,58 +7,6 @@
 #include <assert.h>
 #include <math.h>
 
-// int construit_presque_complet(Arbre *a, int **src, int n){
-
-//     if (!n)
-//         return 1;
-
-//     int nb_a_attribuer_gauche = (n-1)/2;
-//     int nb_a_attribuer_droit = n - 1 - nb_a_attribuer_gauche;
-
-//     // fprintf(stderr, "valeur racine : %d\n", **src);
-//     // fprintf(stderr, "   nombre à attribuer à gauche : %d\n", nb_a_attribuer_gauche);
-//     // fprintf(stderr, "   nombre à attribuer à droite : %d\n", nb_a_attribuer_droit);
-
-//     Noeud *noeud = alloue_noeud((**src));
-//     if (!noeud)
-//         return 0;
-
-//     if (!(*a)) 
-//         *a = noeud;
-    
-
-//     (*src)++;
-
-//     if ( !construit_presque_complet(&(*a)->fg, src, nb_a_attribuer_gauche)
-//         || !construit_presque_complet(&(*a)->fd, src, nb_a_attribuer_droit)){
-
-//             detruit_arbre(*a);
-//             return 0;
-//         }
-
-//     return 1;
-// }
-
-// int non_ABR_presque_complet_alea(Arbre * a, int taille){
-
-//     int* tmp = (int*) malloc(sizeof(Noeud) * taille);
-
-//     if (!tmp)
-//         return 0;
-
-//     int ** tab = &tmp;
-
-//     for (int i = 0; i< taille; i++){
-//         (*tab)[i] = rand() % 1000;
-//     }
-
-//     if (!construit_presque_complet(a, tab, taille))
-//         return 0;
-
-
-//     return 1;
-// }
-
 int construit_quelconque_aux(Arbre *a, int **codage, int* n){
 
     if (*n <= 0){
@@ -129,7 +77,6 @@ int construit_quelconque(Arbre *a, int **codage, int n){
 
     return 1;
 }
-
 
 static int nombre_noeuds_gauche(int n){
 
@@ -275,9 +222,7 @@ int ABR_presque_complet_alea(Arbre * a, int taille){
     int i = 0;
     int somme = 0;
     while (i < taille_codage){
-
         
-
         int k = rand()%30;
         if (!verif_presence(tab, i, k + 1))
             continue;

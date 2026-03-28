@@ -1,0 +1,440 @@
+% ============================================================
+%  Rapport DM1 — Vérification du statut ABR pour un arbre binaire
+%  L2 Informatique — Algorithmique des Arbres
+%  Université Gustave Eiffel
+% ============================================================
+
+\documentclass[12pt, a4paper]{article}
+
+% ---------- Encodage & langue ----------
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+
+% ---------- Mise en page ----------
+\usepackage[top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm]{geometry}
+\usepackage{parskip}          % Espacement entre paragraphes (pas d'indentation)
+\usepackage{setspace}
+\onehalfspacing               % Interligne 1.5
+
+% ---------- Mathématiques ----------
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+% ---------- Code source C ----------
+\usepackage{listings}
+\usepackage{xcolor}
+
+\definecolor{codegreen}{rgb}{0.1,0.5,0.1}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.4,0.0,0.6}
+\definecolor{backcolour}{rgb}{0.97,0.97,0.97}
+
+\lstdefinestyle{styleC}{
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen}\itshape,
+    keywordstyle=\color{codepurple}\bfseries,
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{red},
+    basicstyle=\ttfamily\small,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=6pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2,
+    language=C
+}
+\lstset{style=styleC}
+
+% ---------- Figures & tableaux ----------
+\usepackage{graphicx}
+\usepackage{float}            % Option [H] pour forcer la position
+\usepackage{caption}
+\usepackage{subcaption}       % Sous-figures côte à côte
+\usepackage{booktabs}         % Tableaux propres (\toprule, \midrule, \bottomrule)
+\usepackage{array}
+
+% ---------- Liens cliquables ----------
+\usepackage[
+    colorlinks=true,
+    linkcolor=blue!70!black,
+    urlcolor=blue!70!black,
+    citecolor=green!50!black
+]{hyperref}
+
+% ---------- En-têtes / pieds de page ----------
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\fancyhead[L]{\small DM1 — Vérification du statut ABR}
+\fancyhead[R]{\small L2 Informatique — S2}
+\fancyfoot[C]{\thepage}
+
+% ---------- Divers ----------
+\usepackage{enumitem}         % Personnalisation des listes
+\usepackage{tcolorbox}        % Boîtes colorées pour les remarques/résultats clés
+\usepackage{titlesec}         % Personnalisation des titres de sections
+\usepackage{lipsum}
+
+% Style des titres de section
+\titleformat{\section}{\large\bfseries\color{blue!70!black}}{}{0em}{\thesection\quad}
+\titleformat{\subsection}{\normalsize\bfseries}{}{0em}{\thesubsection\quad}
+
+% Boîte pour les résultats importants
+\tcbuselibrary{skins}
+\newtcolorbox{resultatcle}{
+    colback=blue!5!white,
+    colframe=blue!60!black,
+    fonttitle=\bfseries,
+    title=Résultat clé
+}
+
+% ============================================================
+\begin{document}
+
+% ============================================================
+%  PAGE DE TITRE
+% ============================================================
+\begin{titlepage}
+    \centering
+    \vspace*{1.5cm}
+
+    {\large Université Gustave Eiffel\\[0.3em]
+    L2 Informatique — Semestre 2\\[0.3em]
+    Algorithmique des Arbres}
+
+    \vspace{2cm}
+    \rule{\linewidth}{0.8pt}\\[0.6em]
+    {\LARGE\bfseries DM 1 — Vérification du statut \og{}de recherche\fg{}\\[0.4em]
+    pour un arbre binaire}\\[0.4em]
+    \rule{\linewidth}{0.8pt}
+
+    \vspace{2cm}
+
+    % ---- Membres du binôme / groupe ----
+    {\large\bfseries Membres du groupe :}\\[1em]
+    \begin{tabular}{ll}
+        Raphaël  & \textbf{LIBÉRALE} \\[0.4em]
+        Néo & \textbf{RISTIC} \\
+        % Ajoute des lignes ici si groupe de 3 ou 4
+        % Prénom & \textbf{NOM} \\
+        % Prénom & \textbf{NOM} \\
+    \end{tabular}
+
+    \vspace{2cm}
+
+    {\large Groupe de TD : \textbf{5}}
+
+    \vfill
+
+    {\large\today}
+\end{titlepage}
+
+% ============================================================
+%  TABLE DES MATIÈRES
+% ============================================================
+\tableofcontents
+\newpage
+
+% ============================================================
+%  PARTIE 1 — RÉALISATION DU DM ET DIFFICULTÉS
+% ============================================================
+\section{Réalisation du DM et difficultés rencontrées}
+
+% Décrivez brièvement comment vous avez organisé votre travail,
+% la répartition des tâches au sein du binôme, et les éventuelles
+% difficultés rencontrées lors de l'implémentation.
+
+\subsection{Organisation du travail}
+
+% Exemple de contenu à remplacer :
+% Nous avons réparti le travail comme suit : ...
+
+L'organisation du travail a été faite via un dépôt Github, lequel nous a permis de travailler en parallèle sur les différentes tâches du devoir et de synchroniser directement les avancées qu'on faisait. La répartition du travail est la suivante : \linebreak[2]
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{>{\bfseries}l p{10cm}}
+		\toprule
+		\textbf{Membre} & \textbf{Parties traitées} \\
+		\midrule
+		Raphaël LIBÉRALE
+		& \begin{itemize}[noitemsep, topsep=0pt, leftmargin=*]
+			\item Section 2.1.1 — Processus de construction des arbres sur un codage générique (\texttt{construit\_quelconque})
+			\item Section 2.1.2 — Génération des parcours préfixes des arbres complets, filiformes et quelconques.
+			\item Section 2.1.3 — Génération d'arbres ABR et non-ABR complets, filiformes et quelconques
+			
+			\end{itemize} \\
+		\addlinespace
+		Néo RISTIC
+		& \begin{itemize}[noitemsep, topsep=0pt, leftmargin=*]
+			\item Section 1.1 — Méthode naïve (\texttt{est\_abr\_naif})
+			\item Section 1.2 — Méthode optimisée (\texttt{est\_abr\_definition})
+			\item Section 1.3 — Méthode infixe (\texttt{est\_abr\_infixe})
+			\item Section 2.2 — Protocole expérimental et script Python (\texttt{analyse\_complexite.py})
+		  \end{itemize} \\
+		\bottomrule
+	\end{tabular}
+	\caption{Répartition des tâches au sein du binôme.}
+	\label{tab:repartition}
+\end{table}
+
+\subsection{Difficultés rencontrées}
+
+\paragraph{Raphaël LIBÉRALE}
+% Écris ton ressenti ici
+La génération des parcours préfixes depuis les parcours infixes a été technique car il fallait trouver le bon algorithme pour chaque forme d'arbre. Plus particulièrement, hormis le débuggage avec \texttt{gdb} assez long avec chacune des fonctions, la création du parcours préfixe d'un arbre filiforme a pris plusieurs essais d'algorithmes, dont les premiers étaient infructueux. 
+
+ Ensuite, lors des générations d'arbres en fonction des formes, il fallait trouver comment implémenter les caractères de fin pour le codage de l'arbre (en l'occurrence \texttt{-1}); J'ai choisi de le faire avant la création du parcours infixe sur les arbres complets (donc le tableau \texttt{infixe} est de taille $2n + 1$ avant l'appel de la fonction de parcours préfixe, où $n$ est le nombre de nœuds). Pour les arbres filiformes et quelconques, cela se fait lors de la création du parcours infixe (donc \texttt{infixe} est de taille $n$ avant l'appel de la fonction). 
+
+
+\paragraph{Néo RISTIC}
+% Écris ton ressenti ici
+Lorem ipsum...
+
+
+% ============================================================
+%  PARTIE 2 — PROTOCOLE EXPÉRIMENTAL
+% ============================================================
+\section{Protocole expérimental}
+
+Cette section décrit le protocole mis en place pour comparer expérimentalement les trois méthodes de vérification
+du statut ABR. L'objectif est qu'un lecteur puisse reproduire intégralement nos expériences.
+
+\subsection{Environnement d'exécution}
+
+% Décris ton environnement : OS, compilateur (clang et version), CPU, RAM, etc.
+% Cela est essentiel pour la reproductibilité.
+
+\begin{itemize}
+	% Susceptible de changer selon qui est chargé des expériences 
+    \item Système d'exploitation : Ubuntu 24.04.4
+    \item Compilateur : \texttt{clang}, version 18.1.3
+    \item Processeur : Intel(R) Core(TM) Ultra 7 155H
+    \item Mémoire vive : 30 Gio de RAM (swap : 8 Gio)
+\end{itemize}
+
+\subsection{Types d'arbres générés}
+
+Nous avons généré six types d'arbres binaires sans doublon, résumés dans le tableau ci-dessous.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{lll}
+        \toprule
+        \textbf{Morphologie} & \textbf{Type} & \textbf{Fonction de génération} \\
+        \midrule
+        Presque complet & ABR     & \texttt{ABR\_presque\_complet\_alea} \\
+        Presque complet & Non-ABR & \texttt{non\_ABR\_presque\_complet\_alea} \\
+        Filiforme       & ABR     & \texttt{ABR\_filiforme\_alea} \\
+        Filiforme       & Non-ABR & \texttt{non\_ABR\_filiforme\_alea} \\
+        Quelconque      & ABR     & \texttt{ABR\_quelconque\_alea} \\
+        Quelconque      & Non-ABR & \texttt{non\_ABR\_quelconque\_alea} \\
+        \bottomrule
+    \end{tabular}
+    \caption{Types d'arbres utilisés dans les expériences.}
+    \label{tab:types_arbres}
+\end{table}
+
+\subsection{Paramètres des mesures}
+
+% Indique les tailles testées, le nombre de répétitions par point de mesure,
+% et comment tu as calculé la moyenne.
+
+\begin{itemize}
+    \item Tailles testées : $n \in \{$ ... $\}$ nœuds
+    \item Nombre de répétitions par point de mesure : ...
+    \item Métrique mesurée : nombre de nœuds visités (type \texttt{long long})
+\end{itemize}
+
+\subsection{Format des résultats}
+
+Les résultats sont stockés dans le fichier \texttt{mesures.csv} dont le format de la première ligne est :
+
+\begin{center}
+    \texttt{Taille;Morphologie;Methode;Nb\_visites;Temps}
+\end{center}
+
+\subsection{Script de compilation et d'exécution}
+
+Grâce à la création d'un \texttt{makefile}, la compilation est hautement simplifiée et cela permet de reproduire les expériences suivantes avec les simples commandes suivantes :
+
+\begin{lstlisting}[language=bash, style=styleC, caption={Compilation et exécution}]
+make 
+./programme
+python3 analyse_complexite.py
+\end{lstlisting}
+
+% ============================================================
+%  PARTIE 3 — ANALYSE DES RÉSULTATS
+% ============================================================
+\section{Analyse des résultats}
+
+\subsection{Courbes obtenues}
+
+% Insère ici tes courbes produites par matplotlib.
+% Pour insérer une image : place le fichier .png dans le même dossier que le .tex
+% puis utilise \includegraphics.
+
+\begin{figure}[H]
+    \centering
+    % \includegraphics[width=0.85\textwidth]{courbe_abr.png}
+    \caption{Nombre de nœuds visités en fonction de la taille — arbres ABR.}
+    \label{fig:courbe_abr}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    % \includegraphics[width=0.85\textwidth]{courbe_non_abr.png}
+    \caption{Nombre de nœuds visités en fonction de la taille — arbres non-ABR.}
+    \label{fig:courbe_non_abr}
+\end{figure}
+
+% Tu peux également placer deux figures côte à côte :
+%
+% \begin{figure}[H]
+%     \centering
+%     \begin{subfigure}{0.48\textwidth}
+%         \includegraphics[width=\linewidth]{courbe_abr.png}
+%         \caption{Cas ABR}
+%     \end{subfigure}
+%     \hfill
+%     \begin{subfigure}{0.48\textwidth}
+%         \includegraphics[width=\linewidth]{courbe_non_abr.png}
+%         \caption{Cas non-ABR}
+%     \end{subfigure}
+%     \caption{Comparaison ABR / non-ABR pour les trois méthodes.}
+% \end{figure}
+
+% ---- 3.2 Complexité théorique et validation expérimentale ----
+\subsection{Analyse par méthode}
+
+\subsubsection{Méthode naïve (\texttt{est\_abr\_naif})}
+
+\paragraph{Complexité théorique.}
+
+% Justifie la complexité dans le pire cas / meilleur cas / cas moyen,
+% en distinguant si nécessaire selon la morphologie (presque complet, filiforme, quelconque).
+
+Pour chaque nœud $n$, la méthode naïve appelle \texttt{abr\_max} sur le sous-arbre gauche et \texttt{abr\_min}
+sur le sous-arbre droit, ce qui implique de reparcourir les sous-arbres. En notant $N$ le nombre de nœuds,
+la complexité dans le pire cas est donc ...
+
+\begin{resultatcle}
+    Complexité de \texttt{est\_abr\_naif} : $\mathcal{O}(\ldots)$ dans le pire cas.
+\end{resultatcle}
+
+\paragraph{Validation expérimentale.}
+
+% Explique en quoi tes courbes confirment (ou infirment) la complexité théorique.
+% Mentionne les échelles (linéaire, logarithmique) utilisées et pourquoi.
+
+...
+
+\paragraph{Différences selon la morphologie.}
+
+% Explique pourquoi les courbes diffèrent (ou non) entre arbres presque complets,
+% filiformes et quelconques.
+
+...
+
+% ---- Méthode optimisée ----
+\subsubsection{Méthode optimisée (\texttt{est\_abr\_definition})}
+
+\paragraph{Complexité théorique.}
+
+La méthode optimisée propage les valeurs min/max lors d'un unique parcours, visitant chaque nœud au plus
+une fois. Sa complexité est donc ...
+
+\begin{resultatcle}
+    Complexité de \texttt{est\_abr\_definition} : $\mathcal{O}(\ldots)$ dans le pire cas.
+\end{resultatcle}
+
+\paragraph{Validation expérimentale.}
+
+...
+
+\paragraph{Différences selon la morphologie.}
+
+...
+
+% ---- Méthode infixe ----
+\subsubsection{Méthode par parcours infixe (\texttt{est\_abr\_infixe})}
+
+\paragraph{Complexité théorique.}
+
+La méthode infixe réalise un parcours infixe de l'arbre en s'interrompant dès la première violation. Dans le
+meilleur cas (violation proche de la racine), sa complexité est $\mathcal{O}(\ldots)$ ; dans le pire cas
+(arbre ABR), elle est $\mathcal{O}(\ldots)$.
+
+\begin{resultatcle}
+    Complexité de \texttt{est\_abr\_infixe} : $\mathcal{O}(\ldots)$ dans le pire cas.
+\end{resultatcle}
+
+\paragraph{Validation expérimentale.}
+
+...
+
+\paragraph{Différences selon la morphologie.}
+
+...
+
+% ---- Comparaison des méthodes ----
+\subsection{Comparaison des trois méthodes}
+
+% Compare globalement les trois méthodes.
+% Points à aborder :
+%  - Efficacité sur les ABR vs non-ABR
+%  - Impact de l'interruption anticipée selon la position de la première violation
+%  - Quelle méthode recommanderiez-vous et pourquoi ?
+
+\subsubsection{Cas des arbres qui sont des ABR}
+
+...
+
+\subsubsection{Cas des arbres qui ne sont pas des ABR}
+
+% Discute en particulier de l'impact de l'interruption au plus tôt :
+% si la violation est proche de la racine, la méthode infixe peut s'arrêter très tôt,
+% contrairement à la méthode naïve qui continue de visiter des sous-arbres.
+
+...
+
+\subsubsection{Synthèse}
+
+% Un tableau de synthèse peut être utile ici.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{lccc}
+        \toprule
+        & \textbf{Naïve} & \textbf{Optimisée} & \textbf{Infixe} \\
+        \midrule
+        Complexité pire cas    & $\mathcal{O}(?)$ & $\mathcal{O}(?)$ & $\mathcal{O}(?)$ \\
+        Complexité meilleur cas & $\mathcal{O}(?)$ & $\mathcal{O}(?)$ & $\mathcal{O}(?)$ \\
+        Avantage principal     & ...              & ...               & ...             \\
+        Inconvénient principal & ...              & ...               & ...             \\
+        \bottomrule
+    \end{tabular}
+    \caption{Synthèse comparative des trois méthodes.}
+    \label{tab:synthese}
+\end{table}
+
+% ============================================================
+%  CONCLUSION
+% ============================================================
+\section*{Conclusion}
+\addcontentsline{toc}{section}{Conclusion}
+
+% Résume les principaux apports du DM et les enseignements tirés
+% de la comparaison expérimentale.
+
+...
+
+\end{document}
