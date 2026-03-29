@@ -46,7 +46,7 @@ for morph in morphologies:
     plt.plot(tailles, [t for t in tailles], linestyle="--", color="gray", label="n")
     plt.plot(tailles, [t * math.log2(t) if t > 0 else 0 for t in tailles], linestyle="--", color="red", label="n log n")
     #plt.plot(tailles, [t * t / 1000 for t in tailles], linestyle="--", color="purple", label="n² /1000")
-    plt.plot(tailles, [t * t for t in tailles], linestyle="--", color="purple", label="n²")
+    plt.plot(tailles, [t * t /1000 for t in tailles], linestyle="--", color="purple", label="n² / 1000")
 
 
     plt.legend()
@@ -73,7 +73,7 @@ for morph in morphologies:
     # courbes de référence
     plt.plot(tailles, [t for t in tailles], linestyle="--", color="gray", label="n")
     plt.plot(tailles, [t * math.log2(t) if t > 0 else 0 for t in tailles], linestyle="--", color="red", label="n log n")
-    plt.plot(tailles, [t * t /500 for t in tailles], linestyle="--", color="purple", label="n²")
+    plt.plot(tailles, [t * t /1000 for t in tailles], linestyle="--", color="purple", label="n² / 1000")
 
     plt.legend()
     plt.grid(True)

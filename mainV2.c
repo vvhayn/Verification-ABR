@@ -20,14 +20,6 @@ static const char *NOM_MORPHOLOGIE[] = {"ABR_PresqueComplet", "NonABR_PresqueCom
 
 /* Génère un arbre selon sa morphologie (0 à 5) */
 static int genere_arbre(Arbre *a, int morph, int taille) {
-    // if (morph == 0) return ABR_presque_complet_alea(a, taille);
-    // if (morph == 1) return non_ABR_presque_complet_alea(a, taille);
-    // if (morph == 2) return ABR_filiforme_alea(a, taille);
-    // if (morph == 3) return non_ABR_filiforme_alea(a, taille);
-    // if (morph == 4) return ABR_quelconque_alea(a, taille);
-    // if (morph == 5) return non_ABR_quelconque_alea(a, taille);
-    // return 0;
-
     switch(morph) {
         case 0 :
             return ABR_presque_complet_alea(a, taille);
@@ -91,6 +83,11 @@ static int calcule_moyenne(int taille, int morph, int m, double *moy_visites, do
         total_temps   += duree;
         n++;
 
+        // if (rep% 100 == 0){
+        //     fprintf(stderr, "non-ABR de la forme %s\n", NOM_MORPHOLOGIE[morph]);
+        //     fprintf(stderr, "total_temps = %f\n", total_temps);
+        // }
+            
         detruit_arbre(a);
     }
 
@@ -122,8 +119,10 @@ int main(void) {
                 double moy_visites = 0.0;
                 double moy_temps   = 0.0;
 
-                if (!calcule_moyenne(taille, morph, m, &moy_visites, &moy_temps))
+                if (!calcule_moyenne(taille, morph, m, &moy_visites, &moy_temps)){
                     continue;
+                }
+                    
 
                 fprintf(csv, "%d;%s;%s;%.2f;%.9f\n", taille, NOM_MORPHOLOGIE[morph], NOM_METHODE[m], moy_visites, moy_temps);
                 fflush(csv);

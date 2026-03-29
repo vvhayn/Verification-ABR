@@ -151,12 +151,13 @@
 % la répartition des tâches au sein du binôme, et les éventuelles
 % difficultés rencontrées lors de l'implémentation.
 
-\subsection{Organisation du travail}
+\subsection{ Réalisation et organisation du travail}
 
 % Exemple de contenu à remplacer :
 % Nous avons réparti le travail comme suit : ...
+L'organisation du travail a été faite via un dépôt Github, lequel nous a permis de travailler en parallèle sur les différentes tâches du devoir et de synchroniser directement les avancées qu'on faisait. Quant au débuggage, l'outil \texttt{gdb} a été utilisé; Cela a ainsi permis de découvrir des méthodes avancées de débuggage comme l'automatisation des breakpoints et des affichages pour aller plus vite à la source du problème. 
 
-L'organisation du travail a été faite via un dépôt Github, lequel nous a permis de travailler en parallèle sur les différentes tâches du devoir et de synchroniser directement les avancées qu'on faisait. La répartition du travail est la suivante : \linebreak[2]
+La répartition du travail est la suivante : \linebreak[2]
 
 \begin{table}[H]
 	\centering
@@ -192,12 +193,15 @@ L'organisation du travail a été faite via un dépôt Github, lequel nous a per
 La génération des parcours préfixes depuis les parcours infixes a été technique car il fallait trouver le bon algorithme pour chaque forme d'arbre. Plus particulièrement, hormis le débuggage avec \texttt{gdb} assez long avec chacune des fonctions, la création du parcours préfixe d'un arbre filiforme a pris plusieurs essais d'algorithmes, dont les premiers étaient infructueux. 
 
  Ensuite, lors des générations d'arbres en fonction des formes, il fallait trouver comment implémenter les caractères de fin pour le codage de l'arbre (en l'occurrence \texttt{-1}); J'ai choisi de le faire avant la création du parcours infixe sur les arbres complets (donc le tableau \texttt{infixe} est de taille $2n + 1$ avant l'appel de la fonction de parcours préfixe, où $n$ est le nombre de nœuds). Pour les arbres filiformes et quelconques, cela se fait lors de la création du parcours infixe (donc \texttt{infixe} est de taille $n$ avant l'appel de la fonction). 
+ 
+ De plus, les tests étant automatisés, j'ai donc dû trouver un substitut des fonctions \texttt{pow}, \texttt{log2} et \texttt{floor} de la bibliothèque \texttt{<math.h>}, car je devais me passer de l'option de compilation \texttt{-lm}. J'ai donc trouvé sur internet une manière de faire en procédant avec les opérations bit à bit implémentées en \texttt{C} afin de reproduire ces calculs
 
 
 \paragraph{Néo RISTIC :}
 % Écris ton ressenti ici
-Lorem ipsum...
+La première difficulté que j'ai rencontré a été la création de la fonction \texttt{est\_abr\_infixe} ou plus particulièrement sa fonction auxiliaire. Cette dernière n'est pas nécessairement longue mais m'a demandé une réelle compréhension récursive de l'algorithme. J'ai donc pris un crayon et une feuille et essayé de comprendre en dessinant des parcours infixe d'arbres binaires.
 
+Mais le plus long a été la partie d'analyse des complexité. Notamment car les résultats graphiques obtenus paraissaient incorrects, ou du moins non représentatifs des complexités. Au final, nous avons tous les deux résolu le problème ... (pas encore mdr)
 
 % ============================================================
 %  PARTIE 2 — PROTOCOLE EXPÉRIMENTAL
@@ -248,8 +252,8 @@ Nous avons généré six types d'arbres binaires sans doublon, résumés dans le
 % et comment tu as calculé la moyenne.
 
 \begin{itemize}
-    \item Tailles testées : $n \in \{$ ... $\}$ nœuds
-    \item Nombre de répétitions par point de mesure : ...
+    \item Tailles testées : $n \in \{$100, 1100, 2100, 3100, 4100, 5100, 6100, 7100, 8100, 9100$\}$ nœuds 
+    \item Nombre de répétitions par point de mesure : $50$
     \item Métrique mesurée : nombre de nœuds visités (type \texttt{long long})
 \end{itemize}
 
@@ -327,7 +331,7 @@ sur le sous-arbre droit, ce qui implique de reparcourir les sous-arbres. En nota
 la complexité dans le pire cas est donc ...
 
 \begin{resultatcle}
-    Complexité de \texttt{est\_abr\_naif} : $\mathcal{O}(\ldots)$ dans le pire cas.
+    Complexité temporelle de \texttt{est\_abr\_naif} : $\mathcal{O}(n^2)$ dans le pire cas.
 \end{resultatcle}
 
 \paragraph{Validation expérimentale.}
@@ -335,8 +339,9 @@ la complexité dans le pire cas est donc ...
 % Explique en quoi tes courbes confirment (ou infirment) la complexité théorique.
 % Mentionne les échelles (linéaire, logarithmique) utilisées et pourquoi.
 
-...
+Le pire cas est atteint premièrement sur un arbre de type filiforme car sa hauteur $h$ est égale à $n-1$, où  on a $n$ le nombre de nœuds de l'arbre. Deuxièmement, pour avoir une complexité dans le pire cas, il faut avoir un arbre où tous les enfants sont des fils gauches, ou sont des fils droits; Dans le cas d'un arbre à $1000$ nœuds (qui est la deuxième plus petite taille testée sur notre échantillon total), on a une probabilité d'avoir un arbre de cette forme-ci qui vaut $\frac{1}{2^h}$., soit dans notre cas $\frac{1}{2^{999}} \approx 0$.
 
+On remarque sur les graphiques qu'en pratique, on atteint une complexité plus proche de $\theta (4n)$; En effet, on a $n_1 + n_2 + 1 + n_3 + n_4$  nœuds concrets 
 \paragraph{Différences selon la morphologie.}
 
 % Explique pourquoi les courbes diffèrent (ou non) entre arbres presque complets,
@@ -353,7 +358,7 @@ La méthode optimisée propage les valeurs min/max lors d'un unique parcours, vi
 une fois. Sa complexité est donc ...
 
 \begin{resultatcle}
-    Complexité de \texttt{est\_abr\_definition} : $\mathcal{O}(\ldots)$ dans le pire cas.
+    Complexité temporelle de \texttt{est\_abr\_definition} : $\mathcal{O}(\ldots)$ dans le pire cas.
 \end{resultatcle}
 
 \paragraph{Validation expérimentale.}
@@ -374,7 +379,7 @@ meilleur cas (violation proche de la racine), sa complexité est $\mathcal{O}(\l
 (arbre ABR), elle est $\mathcal{O}(\ldots)$.
 
 \begin{resultatcle}
-    Complexité de \texttt{est\_abr\_infixe} : $\mathcal{O}(\ldots)$ dans le pire cas.
+    Complexité temporelle de \texttt{est\_abr\_infixe} : $\mathcal{O}(\ldots)$ dans le pire cas.
 \end{resultatcle}
 
 \paragraph{Validation expérimentale.}
