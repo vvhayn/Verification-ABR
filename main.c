@@ -1,147 +1,112 @@
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <time.h>
-#include <string.h>
+
 #include "est_ABR.h"
 #include "genere_arbre_binaire.h"
 #include "fonctions_de_test.h"
-// #include "structure_arbre.h"
+ 
+#define TAILLE_MIN     100
+#define TAILLE_MAX     10000
+#define TAILLE_STEP    500
+#define NB_REPETITIONS 20
+#define FICHIER_CSV "mesures.csv"
 
-Arbre construit_arbre(FILE* f ){
-    char chara;
+static const char *NOM_METHODE[] = {"Naif", "Definition", "Infixe"};
+static const char *NOM_MORPHOLOGIE[] = {"ABR_PresqueComplet", "NonABR_PresqueComplet", "ABR_Filiforme", "NonABR_Filiforme", "ABR_Quelconque", "NonABR_Quelconque"};
+#define NB_METHODES     3
+#define NB_MORPHOLOGIES 6
 
-    // prend le prochain entier représentant un noeud 
-    do {chara = fgetc(f);} while (chara != ' ');
-    int c = atoi(&chara);
-
-    // cas où c'est un noeud vide
-    if (c == 0) {
-        return NULL;
-    }
-
-    // racine de notre (sous-)arbre actuel
-    Noeud* noeud = alloue_noeud(c);
-
-    noeud->fg = construit_arbre(f);
-    noeud->fd = construit_arbre(f);
-
-    return noeud;
-}
-
-void ecrireDebut(FILE *f){
-    fprintf(f, "digraph arbre {\n");
-    fprintf(f, "    node [shape = record, height = .1 ]\n");
-    fprintf(f, "    edge [tailclip = false, arrowtail = dot, dir = both];\n\n");
-
-}
-
-void ecrireFin(FILE *f){
-    fprintf(f, "}\n");
-}
-
-void ecrireArbre(FILE *f, Arbre a){
-
-    // arbre vide
-    if (!a)
-        return ;
-
-    // noeud de l'arbre
-    fprintf(f, "    n%p [label=\"<gauche> | <valeur> %d | <droit>\"];\n", (void*) a, (int) a->valeur);
-
-    // fils gauche s'il y en a
-    if (a->fg)
-        fprintf(f, "    n%p:gauche:c -> n%p:valeur;\n", (void*) a, (void*) a->fg);
-
-    // fils droit s'il y en a
-    if (a->fd)
-        fprintf(f, "    n%p:droit:c -> n%p:valeur;\n", (void*) a, (void*) a->fd);
-
-    ecrireArbre(f, a->fg);
-    ecrireArbre(f, a->fd);
-}
-
-void dessine(FILE *f, Arbre a){
-    ecrireDebut(f);
-    ecrireArbre(f, a);
-    ecrireFin(f);
-}
-
-void creePDF ( char * dot , char * pdf , Arbre a ) {
-    FILE * out = fopen(dot, "w") ;
-    dessine(out, a) ;
-    fclose (out) ;
-
-    int len = strlen(dot) + strlen(pdf) + 20;
-    //fprintf(stderr, )
-    char * cmd = malloc(len) ;
-    snprintf (cmd, len, " dot -Tpdf  %s -o %s", dot, pdf) ;
-    system(cmd);
-    free(cmd);
-}
-
-int main(void){
-
-    srand(time(NULL));
-    Arbre a = NULL;
-
-    // FILE *f = fopen("arbre_exo.dot", "w+");
-    // if (!f)
-    //     return 1;
-
-    // int taille = 7;
-    // int taille_codage = 2*taille + 1;
-    
-    // int * infixe = (int*) malloc(taille * sizeof(int));
-    // for (int i = 0; i < taille; i++){
-    //     infixe[i] = i;
-    // }
-    // int prefixe[taille_codage];
-
-
-
-    // int *p = prefixe;
-    // int *i = infixe;
-
-    // for (int i =0 ; i< taille; i++){
-    //     printf("%d ", infixe[i]);
-    // }
-    // printf("\n");
-    // parcours_infixe_2_prefixe_quelconque_aleatoire(p, i, 7);
-
-    // for (int i =0 ; i< taille_codage; i++){
-    //     printf("%d ", prefixe[i]);
-    // }
-    // if (!non_ABR_presque_complet_alea(&a, 77))
-    //     fprintf(stderr, "Erreur de construction\n");
-    // else 
-    //     fprintf(stderr, "construction réussie\n");
-
-    // int tmp[] = {5, 3, 1, 10, -1, -1, 11, -1, -1, 4, 2, -1, -1, 6, -1, -1, 9, 12, 15, -1, -1, 13, -1, -1, 14, 51, -1, -1, 30, -1, -1};
-
-    // int *p = tmp;
-    // int **tab = &p;
-
-
-    if (!ABR_presque_complet_alea(&a, 10000))
-        fprintf(stderr, "Erreur de construction\n");
-    else{
-        fprintf(stderr, "construction réussie\n");
-    }
-
-    // dessine(f, a);
-    // creePDF("visualise.dot", "visualise.pdf", a);
-    // system("evince visualise.pdf &");
-
-    fprintf(stderr, "hauteur : %d\n", hauteur(a));
-
-    fprintf(stderr, "nombre de noeuds : %d\n", nb_noeuds(a));
-
-    fprintf(stderr, "nombre de feuilles : %d\n", nb_feuilles(a));
-
-    fprintf(stderr, "nombre de noeuds internes : %d\n", nb_internes(a));
-
-    affiche_infos(a);
-    detruit_arbre(a);
-    // fclose(f);
+/* Génère un arbre selon sa morphologie (0 à 5) */
+static int genere_arbre(Arbre *a, int morph, int taille) {
+    if (morph == 0) return ABR_presque_complet_alea(a, taille);
+    if (morph == 1) return non_ABR_presque_complet_alea(a, taille);
+    if (morph == 2) return ABR_filiforme_alea(a, taille);
+    if (morph == 3) return non_ABR_filiforme_alea(a, taille);
+    if (morph == 4) return ABR_quelconque_alea(a, taille);
+    if (morph == 5) return non_ABR_quelconque_alea(a, taille);
     return 0;
+}
+
+/* Appelle la méthode de vérification m sur l'arbre a */
+static int appelle_methode(Arbre a, int m, long long *nb_visites) {
+    *nb_visites = 0;
+    switch (m) {
+        case 0: return est_abr_naif(a, nb_visites);
+        case 1: return est_abr_definition(a, nb_visites);
+        case 2: return est_abr_infixe(a, nb_visites);
+        default: return -1;
+    }
+}
+
+/* Effectue NB_REPETITIONS générations d'arbres de morphologie morph et calcule la moyenne
+   Renvoie 1 si au moins une répétition a réussi, 0 sinon */
+static int calcule_moyenne(int taille, int morph, int m, double *moy_visites, double *moy_temps) {
+    long long total_visites = 0;
+    double total_temps = 0.0;
+    int n = 0;
+
+    for (int rep = 0; rep < NB_REPETITIONS; rep++) {
+        Arbre a = NULL;
+        if (!genere_arbre(&a, morph, taille) || a == NULL) {
+            if (a != NULL) detruit_arbre(a);
+            continue;
+        } 
+
+        long long nb_visites = 0;
+        struct timespec start, end;
+        clock_gettime(CLOCK_MONOTONIC, &start);  // Début de la mesure
+        appelle_methode(a, m, &nb_visites);
+        clock_gettime(CLOCK_MONOTONIC, &end);    // Fin de la mesure
+
+        // Calcul du temps écoulé en secondes
+        double duree = (end.tv_sec - start.tv_sec) + (end.tv_nsec - start.tv_nsec) / 1e9;
+
+        total_visites += nb_visites;
+        total_temps   += duree;
+        n++;
+
+        detruit_arbre(a);
+    }
+
+    if (n == 0) return 0;
+
+    *moy_visites = (double)total_visites / n;
+    *moy_temps   = total_temps / n;
+    return 1;
+}
+
+int main(void) {
+    srand((unsigned int)time(NULL));
+
+    FILE *csv = fopen(FICHIER_CSV, "w");
+    if (csv == NULL) {
+        fprintf(stderr, "Erreur d'ouverture du fichier %s\n", FICHIER_CSV);
+        return EXIT_FAILURE;
+    }
+
+    fprintf(csv, "Taille;Morphologie;Methode;Nb_visites;Temps\n");
+    printf("Debut de la générations\n");
+
+    for (int taille = TAILLE_MIN; taille <= TAILLE_MAX; taille += TAILLE_STEP) {
+        printf("Taille %d...\n", taille);
+        fflush(stdout);  
+
+        for (int morph = 0; morph < NB_MORPHOLOGIES; morph++) {
+            for (int m = 0; m < NB_METHODES; m++) {
+                double moy_visites = 0.0;
+                double moy_temps   = 0.0;
+
+                if (!calcule_moyenne(taille, morph, m, &moy_visites, &moy_temps))
+                    continue;
+
+                fprintf(csv, "%d;%s;%s;%.2f;%.9f\n", taille, NOM_MORPHOLOGIE[morph], NOM_METHODE[m], moy_visites, moy_temps);
+                fflush(csv);
+            }
+        }
+    }
+
+    fclose(csv);
+    printf("Terminé. Résultats dans %s\n", FICHIER_CSV);
+    return EXIT_SUCCESS;
 }

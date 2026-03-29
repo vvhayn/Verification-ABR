@@ -179,6 +179,7 @@ La répartition du travail est la suivante : \linebreak[2]
 			\item Section 1.2 — Méthode optimisée (\texttt{est\_abr\_definition})
 			\item Section 1.3 — Méthode infixe (\texttt{est\_abr\_infixe})
 			\item Section 2.2 — Protocole expérimental et script Python (\texttt{analyse\_complexite.py})
+			\item 2.3 Rapport et discussions des résultats
 		  \end{itemize} \\
 		\bottomrule
 	\end{tabular}
@@ -201,7 +202,7 @@ La génération des parcours préfixes depuis les parcours infixes a été techn
 % Écris ton ressenti ici
 La première difficulté que j'ai rencontré a été la création de la fonction \texttt{est\_abr\_infixe} ou plus particulièrement sa fonction auxiliaire. Cette dernière n'est pas nécessairement longue mais m'a demandé une réelle compréhension récursive de l'algorithme. J'ai donc pris un crayon et une feuille et essayé de comprendre en dessinant des parcours infixe d'arbres binaires.
 
-Mais le plus long a été la partie d'analyse des complexité. Notamment car les résultats graphiques obtenus paraissaient incorrects, ou du moins non représentatifs des complexités. Au final, nous avons tous les deux résolu le problème ... (pas encore mdr)
+Mais le plus long a été la partie d'analyse des complexités. Notamment car les résultats graphiques obtenus paraissaient incorrects, ou du moins non représentatifs des complexités théoriques. Au final, nous nous sommes rendu compte que les résultats de notre analyse différaient des résultats théoriques car ils ne représentaient non pas le pire cas mais la moyenne de plusieurs arbres générés aléatoirement. Ainsi les complexités obtenues sont toutes inférieures aux complexités théoriques.
 
 % ============================================================
 %  PARTIE 2 — PROTOCOLE EXPÉRIMENTAL
@@ -252,8 +253,8 @@ Nous avons généré six types d'arbres binaires sans doublon, résumés dans le
 % et comment tu as calculé la moyenne.
 
 \begin{itemize}
-    \item Tailles testées : $n \in \{$100, 1100, 2100, 3100, 4100, 5100, 6100, 7100, 8100, 9100$\}$ nœuds 
-    \item Nombre de répétitions par point de mesure : $50$
+    \item Tailles testées : $n \in \{100, 600, 1100, \ldots, 9600\}$ noeuds
+    \item Nombre de répétitions par point de mesure : $20$
     \item Métrique mesurée : nombre de nœuds visités (type \texttt{long long})
 \end{itemize}
 
@@ -282,20 +283,16 @@ python3 analyse_complexite.py
 
 \subsection{Courbes obtenues}
 
-% Insère ici tes courbes produites par matplotlib.
-% Pour insérer une image : place le fichier .png dans le même dossier que le .tex
-% puis utilise \includegraphics.
-
 \begin{figure}[H]
     \centering
-    % \includegraphics[width=0.85\textwidth]{courbe_abr.png}
+    \includegraphics[width=\textwidth]{visites_par_methode.png}
     \caption{Nombre de nœuds visités en fonction de la taille — arbres ABR.}
     \label{fig:courbe_abr}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    % \includegraphics[width=0.85\textwidth]{courbe_non_abr.png}
+    \includegraphics[width=\textwidth]{temps_par_methode.png}
     \caption{Nombre de nœuds visités en fonction de la taille — arbres non-ABR.}
     \label{fig:courbe_non_abr}
 \end{figure}

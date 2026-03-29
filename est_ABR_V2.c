@@ -51,14 +51,13 @@ int est_abr_definition_aux(Arbre a, int *min, int *max, long long *nb_visites) {
         return 1;
     if (a->valeur > *max || a->valeur < *min)
         return 0;
-    return est_abr_definition_aux(a->fd, &a->valeur, max) 
-        && est_abr_definition_aux(a->fg, min, &a->valeur);
+    return est_abr_definition_aux(a->fd, &a->valeur, max, nb_visites) 
+        && est_abr_definition_aux(a->fg, min, &a->valeur, nb_visites);
 }
 
-int est_abr_definition(Arbre a) {
-    int min = INT_MIN;
-    int max = INT_MAX;
-    return est_abr_definition_aux(a, &min, &max);
+int est_abr_definition(Arbre a, long long *nb_visites) {
+    int min = INT_MIN, max = INT_MAX;
+    return est_abr_definition_aux(a, &min, &max, nb_visites);
 }
 
 
