@@ -5,7 +5,7 @@
 // #include "structure_arbre.h"
 #include <time.h>
 #include <assert.h>
-#include <math.h>
+// #include <math.h>
 
 Noeud* alloue_noeud(int val){
 
@@ -106,23 +106,46 @@ int construit_quelconque(Arbre *a, int **codage, int n){
     return 1;
 }
 
+/*Fonction faite par IA*/
+int log2_floor_optimized(unsigned int n) {
+    if (n == 0) {
+        return -1;
+    }
+
+    int k = 0;
+
+    if (n >> 16) { k += 16; n >>= 16; }
+    if (n >>  8) { k +=  8; n >>=  8; }
+    if (n >>  4) { k +=  4; n >>=  4; }
+    if (n >>  2) { k +=  2; n >>=  2; }
+    if (n >>  1) { k +=  1; }
+
+    return k;
+}
+
 static int nombre_noeuds_gauche(int n){
 
     if (n<=1)
         return 0;
 
-    int h = floor(log2(n));
+    int h = log2_floor_optimized(n);
 
-    int nb_noeuds_dernier_etage = n - pow(2, h) + 1;
+    int pow_2_h_minus_1 = 1;
+    for (int i = 1; i <= h-1; i++){
+        pow_2_h_minus_1 *= 2;
+    }
 
-    int capacite_gauche_dernier_etage = pow(2, h-1);
+    int nb_noeuds_dernier_etage = n - (pow_2_h_minus_1 * 2) + 1;
+
+    int capacite_gauche_dernier_etage = pow_2_h_minus_1;
+    // int capacite_gauche_dernier_etage = pow(2, h-1);
 
     // // est-ce que le nombre de noeuds est supérieur à la capacité gauche du dernier étage ? (incomplet sur la partie droite)
     // // si oui, renvoyer la moitié de la capacité du dernier étage, sinon renvoyer le nombre de noeuds (car incomplet sur la partie gauche)
     // int sous_res =  nb_noeuds_dernier_etage < capacite_gauche_dernier_etage ? nb_noeuds_dernier_etage : capacite_gauche_dernier_etage;
 
     // on renvoie les noeuds du plus grand arbre complet faisable + l'étage incomplet
-    int nb_noeuds_gauche = (pow(2, h - 1) - 1) +
+    int nb_noeuds_gauche = (pow_2_h_minus_1 - 1) +
                           (nb_noeuds_dernier_etage < capacite_gauche_dernier_etage
                            ? nb_noeuds_dernier_etage
                            : capacite_gauche_dernier_etage);

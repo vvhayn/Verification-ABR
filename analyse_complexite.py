@@ -12,7 +12,7 @@ with open("mesures.csv", newline="") as f:
         methode = ligne["Methode"]
         taille  = int(ligne["Taille"])
         visites = float(ligne["Nb_visites"])
-        temps   = float(ligne["Temps"])  # en millisecondes
+        temps   = float(ligne["Temps"]) *1000 # en millisecondes
 
         if morph not in donnees:
             donnees[morph] = {}

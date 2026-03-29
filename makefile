@@ -8,28 +8,28 @@ TARGET  = programme
 
 # Tous les fichiers objets nécessaires
 OBJ     = mainV2.o \
-          fonctions_de_test.o \
           genere_arbre_binaire.o \
           est_ABR.o \
+#		  fonctions_de_test.o \
 # 		  structure_arbre.o
 
 # ------------------------------------------------------------
 # Cible principale : édition des liens
 # ------------------------------------------------------------
 $(TARGET): $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) -o $(TARGET) -lm
+	$(CC) $(CFLAGS) $(OBJ) -o $(TARGET)
 
 # ------------------------------------------------------------
 # Compilation des fichiers objets avec leurs dépendances
 # ------------------------------------------------------------
 
 # mainV2 dépend de tous les en-têtes (il utilise tout)
-mainV2.o: mainV2.c fonctions_de_test.h genere_arbre_binaire.h est_ABR.h
+mainV2.o: mainV2.c genere_arbre_binaire.h est_ABR.h # fonctions_de_test.h
 	$(CC) $(CFLAGS) -c mainV2.c -o mainV2.o
 
 # fonctions_de_test : module de base, pas de dépendance interne
-fonctions_de_test.o: fonctions_de_test.c fonctions_de_test.h
-	$(CC) $(CFLAGS) -c fonctions_de_test.c -o fonctions_de_test.o
+# fonctions_de_test.o: fonctions_de_test.c fonctions_de_test.h
+# 	$(CC) $(CFLAGS) -c fonctions_de_test.c -o fonctions_de_test.o
 
 # genere_arbre_binaire dépend de fonctions_de_test
 genere_arbre_binaire.o: genere_arbre_binaire.c genere_arbre_binaire.h fonctions_de_test.h

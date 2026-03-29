@@ -5,7 +5,7 @@
 #include "est_ABR.h"
 #include "genere_arbre_binaire.h"
 // #include "structure_arbre.h"
-#include "fonctions_de_test.h"
+// #include "fonctions_de_test.h"
  
 #define TAILLE_MIN 100
 #define TAILLE_MAX 10000
