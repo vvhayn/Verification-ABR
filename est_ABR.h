@@ -1,7 +1,7 @@
 #ifndef EST_ABR_H
 #define EST_ABR_H
 
-#include "structure_arbre.h"
+#include "genere_arbre_binaire.h"
 
 Arbre alloue_noeud(int val);
 

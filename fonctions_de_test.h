@@ -1,7 +1,7 @@
 #ifndef FONCTIONS_DE_TEST_H
     #define FONCTIONS_DE_TEST_H
 
-    #include "structure_arbre.h"
+    #include "genere_arbre_binaire.h"
 
     /* Calcule la hauteur de l'arbre A.*/
     int hauteur(Arbre a);

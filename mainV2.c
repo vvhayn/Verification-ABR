@@ -4,11 +4,11 @@
 
 #include "est_ABR.h"
 #include "genere_arbre_binaire.h"
-#include "structure_arbre.h"
+// #include "structure_arbre.h"
 #include "fonctions_de_test.h"
  
 #define TAILLE_MIN 100
-#define TAILLE_MAX 20000
+#define TAILLE_MAX 10000
 #define TAILLE_STEP 1000
 #define NB_REPETITIONS 50  
 #define FICHIER_CSV "mesures.csv"
@@ -20,13 +20,30 @@ static const char *NOM_MORPHOLOGIE[] = {"ABR_PresqueComplet", "NonABR_PresqueCom
 
 /* Génère un arbre selon sa morphologie (0 à 5) */
 static int genere_arbre(Arbre *a, int morph, int taille) {
-    if (morph == 0) return ABR_presque_complet_alea(a, taille);
-    if (morph == 1) return non_ABR_presque_complet_alea(a, taille);
-    if (morph == 2) return ABR_filiforme_alea(a, taille);
-    if (morph == 3) return non_ABR_filiforme_alea(a, taille);
-    if (morph == 4) return ABR_quelconque_alea(a, taille);
-    if (morph == 5) return non_ABR_quelconque_alea(a, taille);
-    return 0;
+    // if (morph == 0) return ABR_presque_complet_alea(a, taille);
+    // if (morph == 1) return non_ABR_presque_complet_alea(a, taille);
+    // if (morph == 2) return ABR_filiforme_alea(a, taille);
+    // if (morph == 3) return non_ABR_filiforme_alea(a, taille);
+    // if (morph == 4) return ABR_quelconque_alea(a, taille);
+    // if (morph == 5) return non_ABR_quelconque_alea(a, taille);
+    // return 0;
+
+    switch(morph) {
+        case 0 :
+            return ABR_presque_complet_alea(a, taille);
+        case 1:
+            return non_ABR_presque_complet_alea(a, taille);
+        case 2: 
+            return ABR_filiforme_alea(a, taille);
+        case 3:
+            return non_ABR_filiforme_alea(a, taille);
+        case 4 :
+            return ABR_quelconque_alea(a, taille);
+        case 5 :
+            return non_ABR_quelconque_alea(a, taille);
+        default : 
+        return 0;
+    }
 }
 
 /* Appelle la méthode de vérification m sur l'arbre a */
@@ -50,6 +67,8 @@ static int calcule_moyenne(int taille, int morph, int m, double *moy_visites, do
 
     for (int rep = 0; rep < nb_repetitions; rep++) {
         Arbre a = NULL;
+
+        // pourquoi vérifier a == NULL dans le premier if et a != NULL dans le deuxième ? 
         if (!genere_arbre(&a, morph, taille) || a == NULL) {
             if (a != NULL) detruit_arbre(a);
             continue;
@@ -114,5 +133,7 @@ int main(void) {
 
     fclose(csv);
     printf("Terminé. Résultats dans %s\n", FICHIER_CSV);
+
+    // pourquoi pas return 0 ? 
     return EXIT_SUCCESS;
 }

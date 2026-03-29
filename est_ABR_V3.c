@@ -4,7 +4,8 @@
 #include <assert.h>
 
 #include "est_ABR.h"
-#include "structure_arbre.h"
+#include "genere_arbre_binaire.h"
+
 Arbre alloue_noeud(int val){
     Noeud* noeud = (Noeud*) malloc(sizeof(Noeud));
     if (noeud == NULL){
@@ -35,9 +36,12 @@ int abr_min(Arbre a, long long * nb_min){
 }
 
 int est_abr_naif(Arbre a, long long *nb_visites){
-    if (a == NULL) return 1;
-    (*nb_visites)++;
+    if (a == NULL) {
+        (*nb_visites)++;
+        return 1;
+    }
 
+    (*nb_visites)++;
     if (a->fg != NULL && abr_max(a->fg, nb_visites) > a->valeur)
         return 0;
     if (a->fd != NULL && abr_min(a->fd, nb_visites) < a->valeur)

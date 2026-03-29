@@ -5,7 +5,7 @@
 #include "est_ABR.h"
 #include "genere_arbre_binaire.h"
 #include "fonctions_de_test.h"
-#include "structure_arbre.h"
+// #include "structure_arbre.h"
 
 Arbre construit_arbre(FILE* f ){
     char chara;
@@ -84,9 +84,9 @@ int main(void){
     srand(time(NULL));
     Arbre a = NULL;
 
-    FILE *f = fopen("arbre_exo.dot", "w+");
-    if (!f)
-        return 1;
+    // FILE *f = fopen("arbre_exo.dot", "w+");
+    // if (!f)
+    //     return 1;
 
     // int taille = 7;
     // int taille_codage = 2*taille + 1;
@@ -122,15 +122,15 @@ int main(void){
     // int **tab = &p;
 
 
-    if (!ABR_quelconque_alea(&a, 7))
+    if (!ABR_presque_complet_alea(&a, 10000))
         fprintf(stderr, "Erreur de construction\n");
     else{
         fprintf(stderr, "construction réussie\n");
     }
 
-    dessine(f, a);
-    creePDF("visualise.dot", "visualise.pdf", a);
-    system("evince visualise.pdf &");
+    // dessine(f, a);
+    // creePDF("visualise.dot", "visualise.pdf", a);
+    // system("evince visualise.pdf &");
 
     fprintf(stderr, "hauteur : %d\n", hauteur(a));
 
@@ -140,7 +140,8 @@ int main(void){
 
     fprintf(stderr, "nombre de noeuds internes : %d\n", nb_internes(a));
 
+    affiche_infos(a);
     detruit_arbre(a);
-    fclose(f);
+    // fclose(f);
     return 0;
 }

@@ -3,15 +3,15 @@
 # ============================================================
 
 CC      = clang
-CFLAGS  = -Wall -Wextra -g -std=c17
+CFLAGS  = -Wall -Wextra -g -std=gnu17
 TARGET  = programme
 
 # Tous les fichiers objets nécessaires
-OBJ     = main.o \
+OBJ     = mainV2.o \
           fonctions_de_test.o \
           genere_arbre_binaire.o \
           est_ABR.o \
-		  structure_arbre.o
+# 		  structure_arbre.o
 
 # ------------------------------------------------------------
 # Cible principale : édition des liens
@@ -23,9 +23,9 @@ $(TARGET): $(OBJ)
 # Compilation des fichiers objets avec leurs dépendances
 # ------------------------------------------------------------
 
-# main dépend de tous les en-têtes (il utilise tout)
-main.o: main.c fonctions_de_test.h genere_arbre_binaire.h est_ABR.h
-	$(CC) $(CFLAGS) -c main.c -o main.o
+# mainV2 dépend de tous les en-têtes (il utilise tout)
+mainV2.o: mainV2.c fonctions_de_test.h genere_arbre_binaire.h est_ABR.h
+	$(CC) $(CFLAGS) -c mainV2.c -o mainV2.o
 
 # fonctions_de_test : module de base, pas de dépendance interne
 fonctions_de_test.o: fonctions_de_test.c fonctions_de_test.h
@@ -39,8 +39,8 @@ genere_arbre_binaire.o: genere_arbre_binaire.c genere_arbre_binaire.h fonctions_
 est_ABR.o: est_ABR.c est_ABR.h genere_arbre_binaire.h
 	$(CC) $(CFLAGS) -c est_ABR.c -o est_ABR.o
 
-structure_arbre.o: structure_arbre.c structure_arbre.h
-	$(CC) $(CFLAGS) -c structure_arbre.c -o structure_arbre.o
+# structure_arbre.o: structure_arbre.c structure_arbre.h
+# 	$(CC) $(CFLAGS) -c structure_arbre.c -o structure_arbre.o
 
 # ------------------------------------------------------------
 # Cibles utilitaires

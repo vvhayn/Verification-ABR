@@ -2,10 +2,38 @@
 #include <stdlib.h>
 #include "genere_arbre_binaire.h"
 #include "fonctions_de_test.h"
-#include "structure_arbre.h"
+// #include "structure_arbre.h"
 #include <time.h>
 #include <assert.h>
 #include <math.h>
+
+Noeud* alloue_noeud(int val){
+
+    Noeud* noeud = (Noeud*) malloc(sizeof(Noeud));
+
+    if (!noeud){
+        printf("Impossibilité d'allouer le noeud.");
+        exit(1);
+    }
+
+    noeud->fd = NULL;
+    noeud->fg = NULL;
+
+    noeud->valeur = val;
+
+    return noeud;
+
+}
+
+void detruit_arbre(Noeud *noeud) {
+    if (!noeud)
+        return;
+    else {
+        detruit_arbre(noeud->fg);
+        detruit_arbre(noeud->fd);
+        free(noeud);
+    }
+}
 
 int construit_quelconque_aux(Arbre *a, int **codage, int* n){
 
@@ -332,7 +360,7 @@ int ABR_filiforme_alea(Arbre * a, int taille){
 
         
 
-        int k = rand()%100000;
+        int k = rand()%30;
         if (!verif_presence(tab, i, somme + k + 1))
             continue;
 
