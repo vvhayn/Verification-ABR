@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.3.17)  29 MAR 2026 22:32
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.3.17)  29 MAR 2026 23:45
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1078,7 +1078,7 @@ File: temps_par_methode.png Graphic file (type png)
 Package pdftex.def Info: temps_par_methode.png  used on input line 295.
 (pdftex.def)             Requested size: 455.24411pt x 126.45786pt.
 LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <12> not available
-(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 319.
+(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 310.
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1088,6 +1088,13 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [5 <./visites_par_methode.png> <./temps_par_methode.png>]
+<filiforme_pire_cas_visites.png, id=159, 642.4pt x 481.8pt>
+File: filiforme_pire_cas_visites.png Graphic file (type png)
+<use filiforme_pire_cas_visites.png>
+Package pdftex.def Info: filiforme_pire_cas_visites.png  used on input line 335
+.
+(pdftex.def)             Requested size: 341.43307pt x 256.0806pt.
+
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -1095,7 +1102,12 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[6]
+[6 <./filiforme_pire_cas_visites.png (PNG copy)>]
+Overfull \hbox (28.21515pt too wide) in paragraph at lines 378--384
+[]\T1/cmr/m/n/12 Pour les non-ABR, le com-por-te-ment di-verge for-te-ment se-l
+on la mor-pho-lo-gie. \T1/cmtt/m/n/12 NonABR_Filiforme
+ []
+
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -1103,44 +1115,91 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[7] (Raphael_LIBERALE_-_Neo_RISTIC.aux)
+[7]
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[8]
+Underfull \hbox (badness 2080) in paragraph at lines 503--504
+[]|\T1/cmr/m/n/12 Simple à im-plé-
+ []
+
+
+Underfull \hbox (badness 3439) in paragraph at lines 505--506
+[]|\T1/cmr/m/n/12 Découle na-tu-rel-
+ []
+
+
+Underfull \hbox (badness 4229) in paragraph at lines 509--510
+[]|\T1/cmr/m/n/12 Meilleur cas en
+ []
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[9]
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[10] (Raphael_LIBERALE_-_Neo_RISTIC.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2025-12-24>
  ***********
 Package rerunfilecheck Info: File `Raphael_LIBERALE_-_Neo_RISTIC.out' has not c
 hanged.
-(rerunfilecheck)             Checksum: 3E350AA5469A85D5C23D8CCD6BD235C8;4105.
+(rerunfilecheck)             Checksum: 25E5AA37D303463C450364AE9D40843F;4105.
  ) 
 Here is how much of TeX's memory you used:
- 30788 strings out of 467870
- 596445 string characters out of 5418355
- 1278082 words of memory out of 5000000
- 59169 multiletter control sequences out of 15000+600000
- 639836 words of font info for 69 fonts, out of 8000000 for 9000
+ 30813 strings out of 467870
+ 596933 string characters out of 5418355
+ 1278175 words of memory out of 5000000
+ 59184 multiletter control sequences out of 15000+600000
+ 642958 words of font info for 76 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  98i,12n,108p,1220b,1265s stack positions out of 10000i,1000n,20000p,200000b,200000s
- <C:\Users\vvhay\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt
-1095.pk> <C:\Users\vvhay\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi60
-0\ecrm0600.pk> <C:\Users\vvhay\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec
-/dpi600\eccc1200.pk> <C:\Users\vvhay\AppData\Local\MiKTeX\fonts/pk/ljfour/jknap
-pen/ec/dpi600\ectt1200.pk> <C:\Users\vvhay\AppData\Local\MiKTeX\fonts/pk/ljfour
-/jknappen/ec/dpi600\ecrm1095.pk> <C:\Users\vvhay\AppData\Local\MiKTeX\fonts/pk/
-ljfour/jknappen/ec/dpi600\ecbx1200.pk> <C:\Users\vvhay\AppData\Local\MiKTeX\fon
-ts/pk/ljfour/jknappen/ec/dpi600\ecrm1200.pk> <C:\Users\vvhay\AppData\Local\MiKT
-eX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1440.pk> <C:\Users\vvhay\AppData\Loca
-l\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx2074.pk> <C:\Users\vvhay\AppDat
-a\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1440.pk><C:/Users/vvhay/A
-ppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/User
-s/vvhay/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi6.pfb>
-<C:/Users/vvhay/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cm
-r12.pfb><C:/Users/vvhay/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfon
-ts/cm/cmr6.pfb><C:/Users/vvhay/AppData/Local/Programs/MiKTeX/fonts/type1/public
-/amsfonts/cm/cmr8.pfb><C:/Users/vvhay/AppData/Local/Programs/MiKTeX/fonts/type1
-/public/amsfonts/cm/cmsy10.pfb>
-Output written on Raphael_LIBERALE_-_Neo_RISTIC.pdf (8 pages, 384087 bytes).
+ <C:\Users\vvhay\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecti
+1200.pk> <C:\Users\vvhay\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi60
+0\ectt0800.pk> <C:\Users\vvhay\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec
+/dpi600\ecrm0800.pk> <C:\Users\vvhay\AppData\Local\MiKTeX\fonts/pk/ljfour/jknap
+pen/ec/dpi600\ectt1095.pk> <C:\Users\vvhay\AppData\Local\MiKTeX\fonts/pk/ljfour
+/jknappen/ec/dpi600\ecrm0600.pk> <C:\Users\vvhay\AppData\Local\MiKTeX\fonts/pk/
+ljfour/jknappen/ec/dpi600\eccc1200.pk> <C:\Users\vvhay\AppData\Local\MiKTeX\fon
+ts/pk/ljfour/jknappen/ec/dpi600\ectt1200.pk> <C:\Users\vvhay\AppData\Local\MiKT
+eX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1095.pk> <C:\Users\vvhay\AppData\Loca
+l\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1200.pk> <C:\Users\vvhay\AppDat
+a\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1200.pk> <C:\Users\vvhay\
+AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1440.pk> <C:\Users\
+vvhay\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx2074.pk> <C:\
+Users\vvhay\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1440.pk
+><C:/Users/vvhay/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/c
+mex10.pfb><C:/Users/vvhay/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsf
+onts/cm/cmmi12.pfb><C:/Users/vvhay/AppData/Local/Programs/MiKTeX/fonts/type1/pu
+blic/amsfonts/cm/cmmi6.pfb><C:/Users/vvhay/AppData/Local/Programs/MiKTeX/fonts/
+type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/vvhay/AppData/Local/Programs/MiKTe
+X/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/vvhay/AppData/Local/Progra
+ms/MiKTeX/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Users/vvhay/AppData/Local
+/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/vvhay/AppDat
+a/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/vvh
+ay/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy6.pfb><C:/U
+sers/vvhay/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.p
+fb><C:/Users/vvhay/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm
+/cmti12.pfb>
+Output written on Raphael_LIBERALE_-_Neo_RISTIC.pdf (11 pages, 494345 bytes).
 PDF statistics:
- 565 PDF objects out of 1000 (max. 8388607)
- 36 named destinations out of 1000 (max. 500000)
- 183 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 673 PDF objects out of 1000 (max. 8388607)
+ 40 named destinations out of 1000 (max. 500000)
+ 188 words of extra memory for PDF output out of 10000 (max. 10000000)
 

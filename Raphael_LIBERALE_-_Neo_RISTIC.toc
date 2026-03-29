@@ -15,18 +15,18 @@
 \contentsline {subsection}{\numberline {3.2}Analyse par méthode}{5}{subsection.3.2}%
 \contentsline {subsubsection}{\numberline {3.2.1}Méthode naïve (\texttt {est\_abr\_naif})}{5}{subsubsection.3.2.1}%
 \contentsline {paragraph}{Complexité théorique.}{5}{subsubsection.3.2.1}%
-\contentsline {paragraph}{Validation expérimentale.}{5}{subsubsection.3.2.1}%
-\contentsline {paragraph}{Différences selon la morphologie.}{6}{subsubsection.3.2.1}%
-\contentsline {subsubsection}{\numberline {3.2.2}Méthode optimisée (\texttt {est\_abr\_definition})}{6}{subsubsection.3.2.2}%
-\contentsline {paragraph}{Complexité théorique.}{6}{subsubsection.3.2.2}%
-\contentsline {paragraph}{Validation expérimentale.}{6}{subsubsection.3.2.2}%
-\contentsline {paragraph}{Différences selon la morphologie.}{6}{subsubsection.3.2.2}%
-\contentsline {subsubsection}{\numberline {3.2.3}Méthode par parcours infixe (\texttt {est\_abr\_infixe})}{6}{subsubsection.3.2.3}%
-\contentsline {paragraph}{Complexité théorique.}{6}{subsubsection.3.2.3}%
-\contentsline {paragraph}{Validation expérimentale.}{6}{subsubsection.3.2.3}%
-\contentsline {paragraph}{Différences selon la morphologie.}{6}{subsubsection.3.2.3}%
-\contentsline {subsection}{\numberline {3.3}Comparaison des trois méthodes}{6}{subsection.3.3}%
-\contentsline {subsubsection}{\numberline {3.3.1}Cas des arbres qui sont des ABR}{6}{subsubsection.3.3.1}%
-\contentsline {subsubsection}{\numberline {3.3.2}Cas des arbres qui ne sont pas des ABR}{6}{subsubsection.3.3.2}%
-\contentsline {subsubsection}{\numberline {3.3.3}Synthèse}{7}{subsubsection.3.3.3}%
-\contentsline {section}{Conclusion}{7}{table.caption.5}%
+\contentsline {paragraph}{Validation expérimentale.}{6}{subsubsection.3.2.1}%
+\contentsline {paragraph}{Différences selon la morphologie.}{7}{figure.caption.5}%
+\contentsline {subsubsection}{\numberline {3.2.2}Méthode optimisée (\texttt {est\_abr\_definition})}{7}{subsubsection.3.2.2}%
+\contentsline {paragraph}{Complexité théorique.}{7}{subsubsection.3.2.2}%
+\contentsline {paragraph}{Validation expérimentale.}{8}{subsubsection.3.2.2}%
+\contentsline {paragraph}{Différences selon la morphologie.}{8}{subsubsection.3.2.2}%
+\contentsline {subsubsection}{\numberline {3.2.3}Méthode par parcours infixe (\texttt {est\_abr\_infixe})}{8}{subsubsection.3.2.3}%
+\contentsline {paragraph}{Complexité théorique.}{8}{subsubsection.3.2.3}%
+\contentsline {paragraph}{Validation expérimentale.}{8}{subsubsection.3.2.3}%
+\contentsline {paragraph}{Différences selon la morphologie.}{9}{subsubsection.3.2.3}%
+\contentsline {subsection}{\numberline {3.3}Comparaison des trois méthodes}{9}{subsection.3.3}%
+\contentsline {subsubsection}{\numberline {3.3.1}Cas des arbres qui sont des ABR}{9}{subsubsection.3.3.1}%
+\contentsline {subsubsection}{\numberline {3.3.2}Cas des arbres qui ne sont pas des ABR}{9}{subsubsection.3.3.2}%
+\contentsline {subsubsection}{\numberline {3.3.3}Synthèse}{9}{subsubsection.3.3.3}%
+\contentsline {section}{Conclusion}{10}{table.caption.6}%

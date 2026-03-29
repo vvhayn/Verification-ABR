@@ -5,17 +5,6 @@
 
 #include "est_ABR.h"
 
-// Arbre alloue_noeud(int val){
-//     Noeud* noeud = (Noeud*) malloc(sizeof(Noeud));
-//     if (noeud == NULL){
-//         return NULL; // Allocation error
-//     }
-//     noeud->valeur = val;
-//     noeud->fg = NULL;
-//     noeud->fd = NULL;
-//     return noeud;
-// }
-
 int abr_max(Arbre a, long long *nb_visites) {
     assert(a != NULL);
     while (a->fd != NULL) {
@@ -36,126 +25,14 @@ int abr_min(Arbre a, long long *nb_visites) {
     return a->valeur;
 }
 
-
-///////////////////////////////////////////////////////////////////////////////////////
-
-// FONCTIONS DU COURS 
-
-
-// // A est supposé être un ABR
-// Noeud * max(Arbre A, long long *nb){
-//     if (A) {
-//         (*nb)++;
-//         if (!(A->fd))
-//             return A;
-//         else
-//             return max(A->fd, nb);
-//     } else
-//         return NULL;
-// }
-
-// // A est supposé être un ABR
-// Noeud * min(Arbre A, long long *nb){
-//     if (A && A->fg){
-//         (*nb)++;
-//         return min(A->fg, nb);
-//     }
-//     else
-//         return A;
-// }
-
-// int est_abr_naif(Arbre A, long long *nb_visites){
-
-//     Noeud * m = NULL, * M = NULL;
-//     if (A == NULL){
-//         (*nb_visites)++;
-//         return 1;
-//     }
-
-//     (*nb_visites)++;
-//     if (!est_abr_naif(A->fg, nb_visites) || !est_abr_naif(A->fd, nb_visites)) return 0;
-
-//     // Désormais, A->fg et A->fd sont des ABR
-//     M = max(A->fg, nb_visites);
-//     m = max(A->fd, nb_visites);
-
-//     if (M && M->valeur > A->valeur) return 0;
-//     if (m && m->valeur > A->valeur) return 0;
-
-
-//     return 1;
-// }
-
-/////////////////////////////////////////////////////////////////////////
-
-// PROTOTYPES POUR LE DM 
-
-// int abr_max(Arbre a, long long *nb_visites) {
-//     assert(a != NULL);
-//     (*nb_visites)++;
-//     int max = a->valeur;
-
-//     if (a->fg != NULL) {
-//         int max_gauche = abr_max(a->fg, nb_visites);
-//         if (max_gauche > max) max = max_gauche;
-//     }
-//     if (a->fd != NULL) {
-//         int max_droit = abr_max(a->fd, nb_visites);
-//         if (max_droit > max) max = max_droit;
-//     }
-//     return max;
-// }
-
-// int abr_min(Arbre a, long long *nb_visites) {
-//     assert(a != NULL);
-//     (*nb_visites)++;
-//     int min = a->valeur;
-
-//     if (a->fg != NULL) {
-//         int min_gauche = abr_min(a->fg, nb_visites);
-//         if (min_gauche < min) min = min_gauche;
-//     }
-//     if (a->fd != NULL) {
-//         int min_droit = abr_min(a->fd, nb_visites);
-//         if (min_droit < min) min = min_droit;
-//     }
-//     return min;
-// }
-
-// int est_abr_naif(Arbre a, long long *nb_visites){
-
-//     (*nb_visites)++;
-
-//     if (a == NULL) 
-//     {
-//         return 1;
-//     }
-
-
-//     // if (a == NULL)
-//     //     return 1;
-//     // (*nb_visites)++;
-
-//     if (a->fg != NULL && (abr_max(a->fg, nb_visites) > a->valeur))
-//         return 0;
-//     if (a->fd != NULL && (abr_min(a->fd, nb_visites) < a->valeur))
-//         return 0;
-
-//     return est_abr_naif(a->fg, nb_visites) && est_abr_naif(a->fd, nb_visites);
-// }
-
-
-// FONCTION DE CLAUDE 
 int est_abr_naif(Arbre a, long long *nb_visites) {
     (*nb_visites)++;
     if (a == NULL)
         return 1;
 
-    // ✅ On vérifie d'abord récursivement les sous-arbres
     if (!est_abr_naif(a->fg, nb_visites) || !est_abr_naif(a->fd, nb_visites))
         return 0;
 
-    // ✅ Seulement ici abr_max/abr_min sont légitimes (sous-arbres validés ABR)
     if (a->fg != NULL && abr_max(a->fg, nb_visites) >= a->valeur)
         return 0;
     if (a->fd != NULL && abr_min(a->fd, nb_visites) <= a->valeur)
@@ -205,26 +82,26 @@ int est_abr_infixe(Arbre a, long long * nb_visites){
     return 0;
 }
 
-void affiche_infos(Arbre a) {
-    long long tmp = 0;
-    // printf("La plus petite étiquette de l'arbre est : %d\n", abr_min(a, &tmp));
-    // tmp = 0;
-    // printf("La plus grande étiquette de l'arbre est : %d\n", abr_max(a, &tmp));
-    // tmp = 0;
-    printf("La plus petite étiquette de l'arbre est : %d\n", (abr_min(a, &tmp)));
-    tmp = 0;
-    printf("La plus grande étiquette de l'arbre est : %d\n", (abr_max(a, &tmp)));
-    tmp = 0;
-    printf("L'arbre %s\n", est_abr_naif(a, &tmp) == 1 ? "est un ABR" : "n'est pas un ABR");
-    printf("Le nombre de visites pour déterminer si c'est un ABR est : %lld\n", tmp);
-    tmp = 0;
-    printf("L'arbre %s\n", est_abr_definition(a, &tmp) == 1 ? "est un ABR" : "n'est pas un ABR");
-    printf("Le nombre de visites pour déterminer si c'est un ABR est : %lld\n", tmp);
-    tmp = 0;
-    printf("L'arbre %s\n", est_abr_infixe(a, &tmp) == 1 ? "est un ABR" : "n'est pas un ABR");
-    printf("Le nombre de visites pour déterminer si c'est un ABR est : %lld\n", tmp);
-    tmp = 0;
-}
+// void affiche_infos(Arbre a) {
+//     long long tmp = 0;
+//     // printf("La plus petite étiquette de l'arbre est : %d\n", abr_min(a, &tmp));
+//     // tmp = 0;
+//     // printf("La plus grande étiquette de l'arbre est : %d\n", abr_max(a, &tmp));
+//     // tmp = 0;
+//     printf("La plus petite étiquette de l'arbre est : %d\n", (abr_min(a, &tmp)));
+//     tmp = 0;
+//     printf("La plus grande étiquette de l'arbre est : %d\n", (abr_max(a, &tmp)));
+//     tmp = 0;
+//     printf("L'arbre %s\n", est_abr_naif(a, &tmp) == 1 ? "est un ABR" : "n'est pas un ABR");
+//     printf("Le nombre de visites pour déterminer si c'est un ABR est : %lld\n", tmp);
+//     tmp = 0;
+//     printf("L'arbre %s\n", est_abr_definition(a, &tmp) == 1 ? "est un ABR" : "n'est pas un ABR");
+//     printf("Le nombre de visites pour déterminer si c'est un ABR est : %lld\n", tmp);
+//     tmp = 0;
+//     printf("L'arbre %s\n", est_abr_infixe(a, &tmp) == 1 ? "est un ABR" : "n'est pas un ABR");
+//     printf("Le nombre de visites pour déterminer si c'est un ABR est : %lld\n", tmp);
+//     tmp = 0;
+// }
 
 // int main(void){
 //     long long nb_visites = 0;
