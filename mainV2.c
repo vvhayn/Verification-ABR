@@ -4,13 +4,12 @@
 
 #include "est_ABR.h"
 #include "genere_arbre_binaire.h"
-// #include "structure_arbre.h"
-// #include "fonctions_de_test.h"
+#include "fonctions_de_test.h"
  
-#define TAILLE_MIN 100
-#define TAILLE_MAX 10000
-#define TAILLE_STEP 1000
-#define NB_REPETITIONS 50  
+#define TAILLE_MIN     100
+#define TAILLE_MAX     10000
+#define TAILLE_STEP    500
+#define NB_REPETITIONS 20
 #define FICHIER_CSV "mesures.csv"
 
 static const char *NOM_METHODE[] = {"Naif", "Definition", "Infixe"};
@@ -20,22 +19,13 @@ static const char *NOM_MORPHOLOGIE[] = {"ABR_PresqueComplet", "NonABR_PresqueCom
 
 /* Génère un arbre selon sa morphologie (0 à 5) */
 static int genere_arbre(Arbre *a, int morph, int taille) {
-    switch(morph) {
-        case 0 :
-            return ABR_presque_complet_alea(a, taille);
-        case 1:
-            return non_ABR_presque_complet_alea(a, taille);
-        case 2: 
-            return ABR_filiforme_alea(a, taille);
-        case 3:
-            return non_ABR_filiforme_alea(a, taille);
-        case 4 :
-            return ABR_quelconque_alea(a, taille);
-        case 5 :
-            return non_ABR_quelconque_alea(a, taille);
-        default : 
-        return 0;
-    }
+    if (morph == 0) return ABR_presque_complet_alea(a, taille);
+    if (morph == 1) return non_ABR_presque_complet_alea(a, taille);
+    if (morph == 2) return ABR_filiforme_alea(a, taille);
+    if (morph == 3) return non_ABR_filiforme_alea(a, taille);
+    if (morph == 4) return ABR_quelconque_alea(a, taille);
+    if (morph == 5) return non_ABR_quelconque_alea(a, taille);
+    return 0;
 }
 
 /* Appelle la méthode de vérification m sur l'arbre a */
@@ -55,18 +45,13 @@ static int calcule_moyenne(int taille, int morph, int m, double *moy_visites, do
     long long total_visites = 0;
     double total_temps = 0.0;
     int n = 0;
-    int nb_repetitions = (taille > 10000) ? 20 : NB_REPETITIONS; // juste pr test
 
-    for (int rep = 0; rep < nb_repetitions; rep++) {
+    for (int rep = 0; rep < NB_REPETITIONS; rep++) {
         Arbre a = NULL;
-
-        // pourquoi vérifier a == NULL dans le premier if et a != NULL dans le deuxième ? 
         if (!genere_arbre(&a, morph, taille) || a == NULL) {
             if (a != NULL) detruit_arbre(a);
             continue;
-        }
-
-        // Utilisation de monotonic car sensé etre plus precis, revoir la doc 
+        } 
 
         long long nb_visites = 0;
         struct timespec start, end;
@@ -77,17 +62,10 @@ static int calcule_moyenne(int taille, int morph, int m, double *moy_visites, do
         // Calcul du temps écoulé en secondes
         double duree = (end.tv_sec - start.tv_sec) + (end.tv_nsec - start.tv_nsec) / 1e9;
 
-        // ------------------------------------------------------------------
-
         total_visites += nb_visites;
         total_temps   += duree;
         n++;
 
-        // if (rep% 100 == 0){
-        //     fprintf(stderr, "non-ABR de la forme %s\n", NOM_MORPHOLOGIE[morph]);
-        //     fprintf(stderr, "total_temps = %f\n", total_temps);
-        // }
-            
         detruit_arbre(a);
     }
 
@@ -119,10 +97,8 @@ int main(void) {
                 double moy_visites = 0.0;
                 double moy_temps   = 0.0;
 
-                if (!calcule_moyenne(taille, morph, m, &moy_visites, &moy_temps)){
+                if (!calcule_moyenne(taille, morph, m, &moy_visites, &moy_temps))
                     continue;
-                }
-                    
 
                 fprintf(csv, "%d;%s;%s;%.2f;%.9f\n", taille, NOM_MORPHOLOGIE[morph], NOM_METHODE[m], moy_visites, moy_temps);
                 fflush(csv);
@@ -132,7 +108,5 @@ int main(void) {
 
     fclose(csv);
     printf("Terminé. Résultats dans %s\n", FICHIER_CSV);
-
-    // pourquoi pas return 0 ? 
     return EXIT_SUCCESS;
 }

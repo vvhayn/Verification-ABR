@@ -3,8 +3,6 @@
 
 #include "genere_arbre_binaire.h"
 
-Arbre alloue_noeud(int val);
-
 /* Renvoie la plus petite étiquette de l'ABR a */
 int abr_min(Arbre a, long long *nb_min);
 
