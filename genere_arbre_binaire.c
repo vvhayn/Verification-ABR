@@ -1,11 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "genere_arbre_binaire.h"
-#include "fonctions_de_test.h"
-// #include "structure_arbre.h"
 #include <time.h>
 #include <assert.h>
-// #include <math.h>
 
 Noeud* alloue_noeud(int val){
 
