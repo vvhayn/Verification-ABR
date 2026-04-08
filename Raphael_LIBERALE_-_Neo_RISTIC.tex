@@ -170,7 +170,7 @@ La répartition du travail est la suivante : \linebreak[2]
 			\item Section 2.1.1 — Processus de construction des arbres sur un codage générique (\texttt{construit\_quelconque})
 			\item Section 2.1.2 — Génération des parcours préfixes des arbres complets, filiformes et quelconques.
 			\item Section 2.1.3 — Génération d'arbres ABR et non-ABR complets, filiformes et quelconques
-			
+			\item 2.3 Rapport et discussions des résultats
 			\end{itemize} \\
 		\addlinespace
 		Néo RISTIC
@@ -286,157 +286,257 @@ python3 analyse_complexite.py
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{visites_par_methode.png}
-    \caption{Nombre de nœuds visités en fonction de la taille — arbres ABR.}
-    \label{fig:courbe_abr}
+    \caption{Nombre de nœuds visités en fonction de la taille}
+    \label{fig:courbe_nb_visites}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{temps_par_methode.png}
-    \caption{Nombre de nœuds visités en fonction de la taille — arbres non-ABR.}
-    \label{fig:courbe_non_abr}
+    \caption{Temps en fonction de la taille}
+    \label{fig:courbe_temps}
 \end{figure}
-
-% Tu peux également placer deux figures côte à côte :
-%
-% \begin{figure}[H]
-%     \centering
-%     \begin{subfigure}{0.48\textwidth}
-%         \includegraphics[width=\linewidth]{courbe_abr.png}
-%         \caption{Cas ABR}
-%     \end{subfigure}
-%     \hfill
-%     \begin{subfigure}{0.48\textwidth}
-%         \includegraphics[width=\linewidth]{courbe_non_abr.png}
-%         \caption{Cas non-ABR}
-%     \end{subfigure}
-%     \caption{Comparaison ABR / non-ABR pour les trois méthodes.}
-% \end{figure}
 
 % ---- 3.2 Complexité théorique et validation expérimentale ----
 \subsection{Analyse par méthode}
+
+Nous poserons pour toute cette partie les notations suivantes : 
+
+\begin{itemize}
+	\item $h$ : hauteur de l'arbre $\mathit{A}$;
+	\item $n$ : nombre de noeuds de l'arbre $\mathit{A}$.
+\end{itemize}
 
 \subsubsection{Méthode naïve (\texttt{est\_abr\_naif})}
 
 \paragraph{Complexité théorique.}
 
-% Justifie la complexité dans le pire cas / meilleur cas / cas moyen,
-% en distinguant si nécessaire selon la morphologie (presque complet, filiforme, quelconque).
-
-Pour chaque nœud $n$, la méthode naïve appelle \texttt{abr\_max} sur le sous-arbre gauche et \texttt{abr\_min}
-sur le sous-arbre droit, ce qui implique de reparcourir les sous-arbres. En notant $N$ le nombre de nœuds,
-la complexité dans le pire cas est donc ...
+Pour chaque nœud, la méthode naïve vérifie récursivement que les sous-arbres gauche et droit
+sont eux-mêmes des ABR, puis appelle \texttt{abr\_max} sur le sous-arbre gauche et
+\texttt{abr\_min} sur le sous-arbre droit. Ces deux fonctions descendent respectivement
+le long de la branche la plus à droite et la plus à gauche du sous-arbre, avec un coût
+proportionnel à la hauteur locale $h_{\text{local}}$ du sous-arbre considéré.
+En sommant sur tous les nœuds, la complexité dans le pire cas est $\mathcal{O}(n \cdot h)$,
+où $h$ est la hauteur de l'arbre. Dans le pire cas absolu (arbre filiforme), $h = n - 1$,
+ce qui donne une complexité en $\mathcal{O}(n^2)$.
 
 \begin{resultatcle}
-    Complexité temporelle de \texttt{est\_abr\_naif} : $\mathcal{O}(n^2)$ dans le pire cas.
+	Complexité temporelle de \texttt{est\_abr\_naif} : $\mathcal{O}(n^2)$ dans le pire cas.
 \end{resultatcle}
 
 \paragraph{Validation expérimentale.}
 
-% Explique en quoi tes courbes confirment (ou infirment) la complexité théorique.
-% Mentionne les échelles (linéaire, logarithmique) utilisées et pourquoi.
+Le pire cas théorique $\mathcal{O}(n^2)$ est atteint sur un arbre filiforme dont tous les
+nœuds n'ont que des fils gauches (ou que des fils droits), car \texttt{abr\_max} doit alors
+descendre une chaîne de longueur $k$ au niveau $k$, et on doit faire ceci $n$ fois. En effet, on va d'abord visiter $h$ nœuds, puis $h-1$, puis $h-2$, $\ldots$, puis $1$, ce qui donne la somme $$\sum_{k=1}^{n} k = \frac{n(n+1)}{2}$$ qui est bien quadratique. 
 
-Le pire cas est atteint premièrement sur un arbre de type filiforme car sa hauteur $h$ est égale à $n-1$, où  on a $n$ le nombre de nœuds de l'arbre. Deuxièmement, pour avoir une complexité dans le pire cas, il faut avoir un arbre où tous les enfants sont des fils gauches, ou sont des fils droits; Dans le cas d'un arbre à $1000$ nœuds (qui est la deuxième plus petite taille testée sur notre échantillon total), on a une probabilité d'avoir un arbre de cette forme-ci qui vaut $\frac{1}{2^h}$., soit dans notre cas $\frac{1}{2^{999}} \approx 0$.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.75\textwidth]{filiforme_pire_cas_visites.png}
+	\caption{Graphique du nombre de nœuds visités pour un filiforme de pire cas avec tous les enfants dans une seule direction.}
+	\label{fig:courbe_abr}
+\end{figure}
 
-On remarque sur les graphiques qu'en pratique, on atteint une complexité plus proche de $\theta (4n)$; En effet, on a $n_1 + n_2 + 1 + n_3 + n_4$  nœuds concrets 
+Cependant, un tel arbre filiforme entièrement orienté dans un seul sens
+a une probabilité de $\frac{1}{2^{n-1}}$ d'être généré aléatoirement, soit $\frac{1}{2^{999}}
+\approx 0$ pour $n = 1000$. En pratique, un arbre filiforme aléatoire alterne les directions
+gauche et droite, de sorte que \texttt{abr\_max} et \texttt{abr\_min} coûtent $\mathcal{O}(1)$
+en moyenne à chaque appel : la branche latérale opposée est quasi-inexistante.
+
+Le nombre total de visites s'écrit alors :
+\[
+T(n) = \underbrace{2n + 1}_{\text{parcours récursif principal}} +
+\underbrace{2n}_{\text{appels à \texttt{abr\_max} et \texttt{abr\_min}, coût amorti } \mathcal{O}(1)}
+= 4n + 1
+\]
+ce qui est bien linéaire, conformément à ce qu'on observe sur les courbes
+(pente constante $\approx 4$ en échelle linéaire).
+
+Pour un arbre presque complet, la hauteur vaut $h = \lfloor \log_2(n) \rfloor$.
+Pour un nœud situé à la profondeur d, son sous-arbre gauche a une hauteur de $h - d$. 
+L'appel à $\texttt{abr\_max}$ sur ce sous-arbre doit descendre le long de la branche la plus à droite, ce qui coûte exactement $h - d$ visites.
+On peut donc calculer :
+\[
+\sum_{d=0}^{h} 2^d \cdot (h - d) = 2^h \sum_{k=0}^{h} \frac{k}{2^k} \approx 2n \cdot 2 = 4n
+\]
+car la série $\sum_{k=0}^{\infty} \frac{k}{2^k}$ converge vers $2$.
+La complexité réelle est donc également $\Theta(n)$, bien que la borne
+théorique $\mathcal{O}(n \log n)$ soit formellement correcte mais très pessimiste.
+
 \paragraph{Différences selon la morphologie.}
 
-% Explique pourquoi les courbes diffèrent (ou non) entre arbres presque complets,
-% filiformes et quelconques.
+En pratique, les trois morphologies ABR (presque complet, filiforme, quelconque)
+produisent toutes une courbe de visites en $\approx 4n$, sans différence notable.
+Cela confirme que la constante multiplicative devant $n$ est insensible à la forme
+de l'arbre, dès lors que les branches latérales restent courtes en moyenne.
 
-...
+La différence apparaît en revanche sur les \emph{temps d'exécution} :
+\texttt{ABR\_Filiforme} est nettement plus lent que \texttt{ABR\_PresqueComplet}
+à nombre de visites égal, en raison de la profondeur de récursion $h = n$ qui
+génère $n$ frames de pile consécutives et davantage de défauts de cache mémoire.
+
+Pour les non-ABR, le comportement diverge fortement selon la morphologie.
+\texttt{NonABR\_Filiforme} reste linéaire ($\approx 1.5n$ visites) car la violation
+est placée à une position aléatoire dans la chaîne~: il faut en moyenne parcourir
+la moitié de l'arbre avant de la détecter. En revanche, \texttt{NonABR\_PresqueComplet}
+et \texttt{NonABR\_Quelconque} sont quasi-constants, la violation étant statistiquement
+proche de la racine dans notre méthode de génération.
+
 
 % ---- Méthode optimisée ----
 \subsubsection{Méthode optimisée (\texttt{est\_abr\_definition})}
 
 \paragraph{Complexité théorique.}
 
-La méthode optimisée propage les valeurs min/max lors d'un unique parcours, visitant chaque nœud au plus
-une fois. Sa complexité est donc ...
+La méthode optimisée propage des bornes $[\min, \max]$ à travers les appels récursifs,
+visitant chaque nœud exactement une fois (nœuds réels et sentinelles NULL incluses).
+Il n'y a aucun reparcours de sous-arbre. Sa complexité est donc $\mathcal{O}(n)$
+dans tous les cas, avec une constante très proche de $2$ ($n$ nœuds réels +
+$n+1$ appels sur NULL).
 
 \begin{resultatcle}
-    Complexité temporelle de \texttt{est\_abr\_definition} : $\mathcal{O}(\ldots)$ dans le pire cas.
+	Complexité temporelle de \texttt{est\_abr\_definition} : $\mathcal{O}(n)$ dans le pire cas.
 \end{resultatcle}
 
 \paragraph{Validation expérimentale.}
 
-...
+Les courbes montrent $2n + 1$ visites pour tous les ABR, quelle que soit la morphologie (les courbes sont superposées car la différences de quelques centaines de noeuds est trop faible pour être visible sur le graphique), 
+ce qui correspond exactement au nombre de nœuds réels plus le nombre de feuilles \texttt{NULL}
+dans un arbre binaire à $n$ nœuds. Cette valeur est indépendante de la forme de l'arbre,
+ce qui est validé par la superposition des courbes \texttt{ABR\_PresqueComplet} et
+\texttt{ABR\_Filiforme} en échelle logarithmique.
 
+Pour les non-ABR, la détection est quasi-immédiate ($\mathcal{O}(1)$) dès que la
+violation est proche de la racine : la borne propagée est violée au premier nœud
+concerné et la récursion s'interrompt. Cela se traduit par des courbes plates
+au voisinage de $2$ et $8$ visites pour les trois morphologies.
 \paragraph{Différences selon la morphologie.}
 
-...
+Pour les ABR, il n'y a aucune différence entre les morphologies : le nombre de
+visites est strictement $2n+1$ dans tous les cas. Pour les non-ABR, la différence
+dépend uniquement de la \emph{position de la première violation} dans l'ordre de
+parcours préfixe, qui est déterminée par la méthode de génération et non par la
+forme de l'arbre.
+
 
 % ---- Méthode infixe ----
 \subsubsection{Méthode par parcours infixe (\texttt{est\_abr\_infixe})}
 
 \paragraph{Complexité théorique.}
 
-La méthode infixe réalise un parcours infixe de l'arbre en s'interrompant dès la première violation. Dans le
-meilleur cas (violation proche de la racine), sa complexité est $\mathcal{O}(\ldots)$ ; dans le pire cas
-(arbre ABR), elle est $\mathcal{O}(\ldots)$.
+La méthode infixe réalise un parcours infixe de l'arbre en s'interrompant dès la
+première violation de l'ordre croissant. Dans le meilleur cas (violation au premier
+nœud visité en ordre infixe, c'est-à-dire au nœud le plus à gauche), sa complexité
+est $\mathcal{O}(h)$, où $h$ est la hauteur de l'arbre, car il faut descendre jusqu'au
+premier nœud infixe avant de détecter l'anomalie. Dans le pire cas (arbre ABR),
+le parcours est intégralement réalisé et la complexité est $\mathcal{O}(n)$.
 
 \begin{resultatcle}
-    Complexité temporelle de \texttt{est\_abr\_infixe} : $\mathcal{O}(\ldots)$ dans le pire cas.
+	Complexité temporelle de \texttt{est\_abr\_infixe} : $\mathcal{O}(n)$ dans le pire cas.
 \end{resultatcle}
 
 \paragraph{Validation expérimentale.}
 
-...
+Les courbes de visites pour les ABR sont superposées à celles de la méthode "Définition"
+($2n+1$ visites), ce qui confirme que le parcours infixe complet visite exactement
+autant de nœuds. Pour les non-ABR, les courbes sont quasi-constantes mais légèrement
+supérieures à celles de la méthode "Définition" : en effet, la méthode infixe doit
+d'abord descendre jusqu'au nœud le plus à gauche ($\mathcal{O}(h)$ visites) avant
+de commencer à comparer, alors que la méthode Définition peut détecter une violation
+dès la racine.
 
 \paragraph{Différences selon la morphologie.}
 
-...
+Pour les ABR, le constat est identique à la méthode "Définition" : $2n+1$ visites
+quelle que soit la morphologie. Pour les non-ABR sur arbre filiforme, le comportement
+est quasi-constant ($\approx 9$ à $10$ visites observées) car la violation de l'ordre
+croissant est détectée très tôt dans le parcours infixe indépendamment de la position
+de la violation dans l'arbre.
+
 
 % ---- Comparaison des méthodes ----
 \subsection{Comparaison des trois méthodes}
 
-% Compare globalement les trois méthodes.
-% Points à aborder :
-%  - Efficacité sur les ABR vs non-ABR
-%  - Impact de l'interruption anticipée selon la position de la première violation
-%  - Quelle méthode recommanderiez-vous et pourquoi ?
-
 \subsubsection{Cas des arbres qui sont des ABR}
 
-...
+Sur les ABR, les trois méthodes visitent toutes $\Theta(n)$ nœuds, mais avec des
+constantes différentes. La méthode naïve visite environ $4n$ nœuds, contre $2n+1$
+pour les méthodes "Définition" et "Infixe". L'écart de constante (facteur $\approx 2$) se retrouve directement sur les temps d'exécution. Les méthodes "Définition" et "Infixe" sont donc systématiquement plus efficaces sur les ABR, avec une performance
+quasi-identique entre elles.
 
 \subsubsection{Cas des arbres qui ne sont pas des ABR}
 
-% Discute en particulier de l'impact de l'interruption au plus tôt :
-% si la violation est proche de la racine, la méthode infixe peut s'arrêter très tôt,
-% contrairement à la méthode naïve qui continue de visiter des sous-arbres.
+L'interruption anticipée est le facteur déterminant. La méthode Définition est la
+plus efficace : elle peut détecter une violation dès la racine en $\mathcal{O}(1)$,
+car la borne $[\min, \max]$ est vérifiée avant toute récursion. La méthode Infixe
+doit d'abord descendre jusqu'au nœud le plus à gauche avant de commencer les
+comparaisons, ce qui lui coûte $\mathcal{O}(h)$ visites même si la violation se
+trouve proche de la racine — d'où les $\approx 9$ à $10$ visites observées.
 
-...
+La méthode naïve est la plus pénalisée sur les non-ABR filiformes : elle récurse
+d'abord jusqu'aux feuilles pour valider les sous-arbres, puis remonte pour comparer,
+de sorte qu'elle doit parcourir en moyenne la moitié de l'arbre avant de détecter
+la violation, soit $\approx 1.5n$ visites.
 
 \subsubsection{Synthèse}
 
-% Un tableau de synthèse peut être utile ici.
-
 \begin{table}[H]
-    \centering
-    \begin{tabular}{lccc}
-        \toprule
-        & \textbf{Naïve} & \textbf{Optimisée} & \textbf{Infixe} \\
-        \midrule
-        Complexité pire cas    & $\mathcal{O}(?)$ & $\mathcal{O}(?)$ & $\mathcal{O}(?)$ \\
-        Complexité meilleur cas & $\mathcal{O}(?)$ & $\mathcal{O}(?)$ & $\mathcal{O}(?)$ \\
-        Avantage principal     & ...              & ...               & ...             \\
-        Inconvénient principal & ...              & ...               & ...             \\
-        \bottomrule
-    \end{tabular}
-    \caption{Synthèse comparative des trois méthodes.}
-    \label{tab:synthese}
+	\centering
+	\setlength{\tabcolsep}{5pt}
+	\begin{tabular}{l p{3.2cm} p{3.2cm} p{3.2cm}}
+		\toprule
+		& \textbf{Naïve} & \textbf{Optimisée} & \textbf{Infixe} \\
+		\midrule
+		Complexité pire cas
+		& $\mathcal{O}(n^2)$
+		& $\mathcal{O}(n)$
+		& $\mathcal{O}(n)$ \\
+		Complexité pratique ABR
+		& $\Theta(4n)$
+		& $\Theta(2n)$
+		& $\Theta(2n)$ \\
+		Complexité meilleur cas
+		& $\mathcal{O}(1)$
+		& $\mathcal{O}(1)$
+		& $\mathcal{O}(h)$ \\
+		Avantage principal
+		& Simple à implémenter
+		& Optimale en tous cas
+		& Découle naturellement de la propriété infixe \\
+		Inconvénient principal
+		& Constante $\times 2$ sur les ABR
+		& Moins intuitive à concevoir
+		& Meilleur cas en $\mathcal{O}(h)$ \\
+		\bottomrule
+	\end{tabular}
+	\caption{Synthèse comparative des trois méthodes.}
+	\label{tab:synthese}
 \end{table}
 
+En conclusion, la méthode "Définition" est à recommander dans tous les cas : elle
+est optimale en $\mathcal{O}(n)$ sur les ABR, détecte les violations en $\mathcal{O}(1)$
+dès la racine sur les non-ABR, et sa constante multiplicative ($\approx 2$) est
+la plus faible des trois. La méthode "Infixe" lui est équivalente sur les ABR mais
+légèrement moins efficace sur les non-ABR. La méthode naïve, bien que correcte,
+est à éviter en pratique en raison de son coût double sur les ABR et de sa
+sensibilité aux arbres filiformes.
 % ============================================================
 %  CONCLUSION
 % ============================================================
 \section*{Conclusion}
 \addcontentsline{toc}{section}{Conclusion}
 
-% Résume les principaux apports du DM et les enseignements tirés
-% de la comparaison expérimentale.
+Ce devoir nous a permis d'implémenter et de comparer trois méthodes de vérification
+du statut ABR, en confrontant leur complexité théorique à des mesures expérimentales.
 
-...
+On voit en particulier que les complexités théoriques sont en pratiques très différentes 
+des complexités pratiques .
+
+La méthode "Définition" s'impose finalement comme la plus efficace dans tous les cas :
+complexité $\mathcal{O}(n)$ garantie, détection en $\mathcal{O}(1)$ dès la racine
+pour les non-ABR, et constante multiplicative la plus faible. Ce DM illustre ainsi
+qu'une analyse algorithmique associée à une validation expérimentale
+est indispensable pour choisir la bonne implémentation en pratique.
 
 \end{document}
+
